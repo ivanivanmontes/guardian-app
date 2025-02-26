@@ -1,8 +1,31 @@
-import { View, StyleSheet } from "react-native";
-import MapView from "react-native-maps";
-import React, { useRef } from 'react';
+import { View, StyleSheet, Text } from "react-native";
+import MapView, { Marker, Callout } from "react-native-maps";
+import React from 'react';
 import MapViewStyle from "./utils/MapViewStyle.json";
 
+const crimeData = [
+  {
+    id: 1,
+    title: "Robbery",
+    description: "Reported 20 mins ago",
+    latitude: 40.732,
+    longitude: -73.996,
+  },
+  {
+    id: 2,
+    title: "Assault",
+    description: "Reported 1 hour ago",
+    latitude: 40.730,
+    longitude: -73.998,
+  },
+  {
+    id: 3,
+    title: "Burglary",
+    description: "Reported yesterday",
+    latitude: 40.731,
+    longitude: -73.997,
+  },
+];
 
 export default function HomeScreen() {
   return (
@@ -13,11 +36,29 @@ export default function HomeScreen() {
         region={{
           latitude: 40.73131140946075, 
           longitude: -73.99706649883764,
-          latitudeDelta: 0.001,
+          latitudeDelta: 0.002,
           longitudeDelta: 0.006,
         }}
         customMapStyle={MapViewStyle}
       >
+        {crimeData.map((crime) => (
+          <Marker
+            key={crime.id}
+            coordinate={{
+              latitude: crime.latitude,
+              longitude: crime.longitude,
+            }}
+            pinColor="red" // Crime markers in red
+          >
+            <Callout tooltip>
+              <View style={styles.calloutStyle}>
+                <Text style={styles.title}>{crime.title}</Text>
+                <Text style={styles.description}>{crime.description}</Text>
+              </View>
+            </Callout>
+          </Marker>
+        ))}
+
       </MapView>
     </View>
   );
@@ -30,65 +71,21 @@ const styles = StyleSheet.create({
   map: {
     flex: 1,
   },
-  headerContainer: {
-    position: "absolute",
-    alignItems: "center",
-    zIndex: 10,
-    padding:10,
-    width: "100%",
-    paddingHorizontal:20,
-    top:40
-  },
-  centerCoordinates: {
-    position: 'absolute',
-    top: 100,
-    left: 10,
-    backgroundColor: 'white',
-    padding: 10,
-    borderRadius: 5,
-    zIndex: 1000,
-  },
-  centerIndicator: {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    zIndex: 999,
-    transform: [{ translateX: -20 }, { translateY: -20 }], // Center the image
-  },
-  crosshairVertical: {
-    position: 'absolute',
-    top: 0,
-    left: '50%',
-    width: 2,
-    height: '100%',
-    backgroundColor: 'gray', // Line color
-    zIndex: 1000,
-    opacity: '0.5'
-  },
-
-  crosshairHorizontal: {
-    position: 'absolute',
-    top: '50%',
-    left: 0,
-    width: '100%',
-    height: 2,
-    backgroundColor: 'gray', // Line color
-    zIndex: 1000,
-    opacity: '0.5'
-  },
   calloutStyle: {
-    width: 160, // Set the width of the callout
+    width: 160,
     padding: 10,
-    backgroundColor: 'white',
+    backgroundColor: '#333', // Darker background
     borderRadius: 10,
-    borderColor: 'grey',
-    borderWidth: 0.5,
+    borderColor: 'red', // Border in red
+    borderWidth: 1,
   },
   title: {
     fontWeight: 'bold',
-    fontSize: 16
+    fontSize: 16,
+    color: 'white', // White text for contrast
   },
   description: {
-    fontSize: 14
-  }
+    fontSize: 14,
+    color: 'lightgray',
+  },
 });
