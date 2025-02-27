@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Switch, Platform } from 'react-native';
+import React, { useState, useEffect, useRef } from 'react';
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Switch, Platform, Animated } from 'react-native';
 import MapView, { Marker, Callout, Polyline, PROVIDER_GOOGLE } from 'react-native-maps';
 import { Ionicons, MaterialIcons, FontAwesome5 } from '@expo/vector-icons';
 import { StatusBar } from 'expo-status-bar';
@@ -194,12 +194,13 @@ const darkMapStyle = [
   }
 ];
 
-// Light mode map style - standard Google Maps style
+// Light mode map style - standard Google Maps style 
 const lightMapStyle = [];
 
 // Traffic enhancements for both light and dark modes
 const trafficEnhancements = [
-  // Make roads more prominent
+
+  // Made roads look more visible on the map
   {
     "featureType": "road",
     "elementType": "geometry",
@@ -208,7 +209,7 @@ const trafficEnhancements = [
       { "visibility": "simplified" }
     ]
   },
-  // Enhance arterial roads
+
   {
     "featureType": "road.arterial",
     "elementType": "geometry",
@@ -217,7 +218,7 @@ const trafficEnhancements = [
       { "visibility": "simplified" }
     ]
   },
-  // Enhance highways
+  // Made highways look more visible on the map
   {
     "featureType": "road.highway",
     "elementType": "geometry",
@@ -228,7 +229,7 @@ const trafficEnhancements = [
   }
 ];
 
-// mock crime data
+// Mock crime data
 const crimeData = [
   {
     id: 1,
@@ -249,16 +250,6 @@ const crimeData = [
     details: "Physical altercation between two individuals. One person injured.",
     latitude: 40.730,
     longitude: -73.998,
-  },
-  {
-    id: 3,
-    title: "Burglary",
-    description: "Reported yesterday",
-    time: "2023-06-14 23:15",
-    emoji: "🏠",
-    details: "Forced entry through back window. Electronics and jewelry stolen.",
-    latitude: 40.731,
-    longitude: -73.997,
   },
   {
     id: 4,
@@ -330,9 +321,209 @@ const crimeData = [
     latitude: 40.742,
     longitude: -74.006, // Chelsea
   },
+  {
+    id: 11,
+    title: "Shoplifting",
+    description: "Reported 35 mins ago",
+    time: "2023-06-15 14:10",
+    emoji: "🛍️",
+    details: "Suspect took merchandise from boutique on Broadway. Store security in pursuit.",
+    latitude: 40.725,
+    longitude: -73.998, // SoHo
+  },
+  {
+    id: 12,
+    title: "Bike Theft",
+    description: "Reported 2 hours ago",
+    time: "2023-06-15 12:30",
+    emoji: "🚲",
+    details: "Electric bike stolen from outside restaurant. Lock was cut. Security camera footage available.",
+    latitude: 40.728,
+    longitude: -73.994, // NoHo
+  },
+  {
+    id: 13,
+    title: "Assault",
+    description: "Reported 50 mins ago",
+    time: "2023-06-15 13:55",
+    emoji: "👊",
+    details: "Fight broke out between two groups near Washington Square Park. Two individuals injured.",
+    latitude: 40.731,
+    longitude: -73.997, // Washington Square Park
+  },
+  {
+    id: 14,
+    title: "Vandalism",
+    description: "Reported 3 hours ago",
+    time: "2023-06-15 11:45",
+    emoji: "🎨",
+    details: "Multiple vehicles damaged on street. Witnesses report seeing group of teenagers fleeing the scene.",
+    latitude: 40.727,
+    longitude: -73.991, // East Village border
+  },
+  {
+    id: 15,
+    title: "Package Theft",
+    description: "Reported 1 hour ago",
+    time: "2023-06-15 13:30",
+    emoji: "📦",
+    details: "Packages stolen from apartment building lobby. Suspect caught on security camera.",
+    latitude: 40.726,
+    longitude: -73.995, // NoHo
+  },
+  {
+    id: 16,
+    title: "Public Intoxication",
+    description: "Reported 25 mins ago",
+    time: "2023-06-15 14:20",
+    emoji: "🍺",
+    details: "Intoxicated individual causing disturbance at outdoor cafe. Refusing to leave premises.",
+    latitude: 40.729,
+    longitude: -73.999, // Greenwich Village
+  },
+  {
+    id: 17,
+    title: "Phone Snatching",
+    description: "Reported 40 mins ago",
+    time: "2023-06-15 14:05",
+    emoji: "📱",
+    details: "Suspect on bicycle snatched phone from pedestrian's hand. Fled north on Lafayette Street.",
+    latitude: 40.724,
+    longitude: -73.996, // SoHo
+  },
+  {
+    id: 18,
+    title: "Trespassing",
+    description: "Reported 4 hours ago",
+    time: "2023-06-15 10:45",
+    emoji: "🚪",
+    details: "Unauthorized individual found in NYU building. Security escorted person from premises.",
+    latitude: 40.730,
+    longitude: -73.995, // NYU area
+  },
+  {
+    id: 19,
+    title: "Drug Sale",
+    description: "Reported 2 hours ago",
+    time: "2023-06-15 12:40",
+    emoji: "💊",
+    details: "Suspected drug transaction observed in park. Multiple individuals involved.",
+    latitude: 40.732,
+    longitude: -73.998, // Washington Square Park
+  },
+  {
+    id: 20,
+    title: "Harassment",
+    description: "Reported 1 hour ago",
+    time: "2023-06-15 13:35",
+    emoji: "🗣️",
+    details: "Street performer being harassed by group of individuals. Situation escalating.",
+    latitude: 40.727,
+    longitude: -73.998, // Greenwich Village
+  },
+  {
+    id: 21,
+    title: "Bike Theft",
+    description: "Reported 30 mins ago",
+    time: "2023-06-15 14:15",
+    emoji: "🚲",
+    details: "Locked bicycle stolen from outside restaurant on Bleecker Street. Security camera footage available.",
+    latitude: 40.735,
+    longitude: -74.003, // Bleecker Street area
+  },
+  {
+    id: 22,
+    title: "Noise Complaint",
+    description: "Reported 15 mins ago",
+    time: "2023-06-15 14:30",
+    emoji: "🔊",
+    details: "Loud music and shouting from apartment building. Multiple residents have complained.",
+    latitude: 40.738,
+    longitude: -74.005, // Northern West Village
+  },
+  {
+    id: 23,
+    title: "Shoplifting",
+    description: "Reported 1 hour ago",
+    time: "2023-06-15 13:45",
+    emoji: "🛍️",
+    details: "Suspect took merchandise from boutique on Christopher Street. Store security reviewing footage.",
+    latitude: 40.733,
+    longitude: -74.002, // Christopher Street
+  },
+  {
+    id: 24,
+    title: "Public Intoxication",
+    description: "Reported 45 mins ago",
+    time: "2023-06-15 14:00",
+    emoji: "🍺",
+    details: "Intoxicated individual causing disturbance outside bar on Hudson Street. Refusing to leave area.",
+    latitude: 40.736,
+    longitude: -74.006, // Hudson Street
+  },
+  {
+    id: 25,
+    title: "Vandalism",
+    description: "Reported 2 hours ago",
+    time: "2023-06-15 12:45",
+    emoji: "🎨",
+    details: "Graffiti found on historic building. Property damage estimated at $2,000.",
+    latitude: 40.732,
+    longitude: -74.007, // Western edge of West Village
+  },
+  {
+    id: 26,
+    title: "Package Theft",
+    description: "Reported 3 hours ago",
+    time: "2023-06-15 11:45",
+    emoji: "📦",
+    details: "Multiple packages stolen from apartment building lobby on Bank Street. Suspect caught on camera.",
+    latitude: 40.737,
+    longitude: -74.002, // Bank Street
+  },
+  {
+    id: 27,
+    title: "Suspicious Activity",
+    description: "Reported 25 mins ago",
+    time: "2023-06-15 14:20",
+    emoji: "👀",
+    details: "Individual seen trying door handles of parked cars on Perry Street. Wearing dark hoodie and backpack.",
+    latitude: 40.735,
+    longitude: -74.008, // Perry Street
+  },
+  {
+    id: 28,
+    title: "Assault",
+    description: "Reported 50 mins ago",
+    time: "2023-06-15 13:55",
+    emoji: "👊",
+    details: "Fight broke out between patrons at bar on 7th Avenue. One person taken to hospital with minor injuries.",
+    latitude: 40.739,
+    longitude: -74.003, // 7th Avenue
+  },
+  {
+    id: 29,
+    title: "Drug Activity",
+    description: "Reported 1.5 hours ago",
+    time: "2023-06-15 13:15",
+    emoji: "💊",
+    details: "Suspected drug transaction observed in park. Multiple individuals involved, dispersed when approached.",
+    latitude: 40.731,
+    longitude: -74.004, // James J. Walker Park area
+  },
+  {
+    id: 30,
+    title: "Harassment",
+    description: "Reported 40 mins ago",
+    time: "2023-06-15 14:05",
+    emoji: "🗣️",
+    details: "Individual following and verbally harassing pedestrians on Greenwich Avenue. Described as male in red jacket.",
+    latitude: 40.738,
+    longitude: -74.001, // Greenwich Avenue
+  }
 ];
 
-// mock traffic data
+// Traffic data using Google Maps API
 const trafficData = [
   {
     id: 1,
@@ -360,7 +551,7 @@ const trafficData = [
   },
 ];
 
-// mock reports data
+// Mock reports data
 const reportsData = [
   {
     id: 1,
@@ -386,6 +577,102 @@ const reportsData = [
     description: "New graffiti on the side of the building.",
     reportedBy: "Local Business Owner",
   },
+  {
+    id: 4,
+    title: "Pothole",
+    location: "Bleecker St & 6th Avenue",
+    time: "2023-06-15 08:20",
+    description: "Large pothole causing traffic to swerve. Nearly caused an accident this morning.",
+    reportedBy: "Daily Commuter",
+  },
+  {
+    id: 5,
+    title: "Abandoned Vehicle",
+    location: "West 4th Street",
+    time: "2023-06-12 14:10",
+    description: "Black sedan with flat tires has been parked for over 2 weeks. Appears abandoned.",
+    reportedBy: "Neighborhood Watch",
+  },
+  {
+    id: 6,
+    title: "Noise Complaint",
+    location: "Christopher Street",
+    time: "2023-06-15 01:30",
+    description: "Construction work happening after hours. Extremely loud drilling and hammering.",
+    reportedBy: "Sleepless Resident",
+  },
+  {
+    id: 7,
+    title: "Fallen Tree Branch",
+    location: "Washington Square Park",
+    time: "2023-06-14 17:45",
+    description: "Large branch down after yesterday's storm. Blocking part of the walking path.",
+    reportedBy: "Park Visitor",
+  },
+  {
+    id: 8,
+    title: "Illegal Dumping",
+    location: "Perry Street Alley",
+    time: "2023-06-13 22:15",
+    description: "Someone dumped furniture and construction debris in the alley. Creating an eyesore and blocking access.",
+    reportedBy: "Concerned Citizen",
+  },
+  {
+    id: 9,
+    title: "Water Main Break",
+    location: "Hudson & Charles Street",
+    time: "2023-06-15 07:30",
+    description: "Water flooding the intersection. Road beginning to buckle. Needs immediate attention.",
+    reportedBy: "Local Shop Owner",
+  },
+  {
+    id: 10,
+    title: "Aggressive Panhandling",
+    location: "West Village Subway Station",
+    time: "2023-06-14 19:20",
+    description: "Individual following commuters and becoming confrontational when refused.",
+    reportedBy: "MTA Rider",
+  },
+  {
+    id: 11,
+    title: "Broken Playground Equipment",
+    location: "Abingdon Square Park",
+    time: "2023-06-13 15:40",
+    description: "Swing set has broken chain and sharp edges. Dangerous for children.",
+    reportedBy: "Parent",
+  },
+  {
+    id: 12,
+    title: "Blocked Fire Hydrant",
+    location: "Greenwich Avenue",
+    time: "2023-06-15 11:25",
+    description: "Delivery truck parked in front of fire hydrant for over 3 hours. Safety hazard.",
+    reportedBy: "Former Firefighter",
+  },
+  {
+    id: 13,
+    title: "Public Urination",
+    location: "Gansevoort Street",
+    time: "2023-06-14 23:50",
+    description: "Individuals leaving bars are regularly urinating in the doorway of closed businesses.",
+    reportedBy: "Night Shift Worker",
+  },
+  {
+    id: 14,
+    title: "Dangerous Intersection",
+    location: "7th Ave & West 10th Street",
+    time: "2023-06-12 16:35",
+    description: "Traffic light timing too short for pedestrians to cross safely. Witnessed several near-misses.",
+    reportedBy: "Senior Citizen",
+  },
+  {
+    id: 15,
+    title: "Rat Infestation",
+    location: "Behind restaurants on Carmine Street",
+    time: "2023-06-15 05:15",
+    description: "Significant increase in rat activity due to improper garbage storage. Health concern.",
+    reportedBy: "Early Morning Dog Walker",
+  }
 ];
 
 export default function HomeScreen() {
@@ -394,6 +681,9 @@ export default function HomeScreen() {
   const [darkMode, setDarkMode] = useState(false);
   const [showTraffic, setShowTraffic] = useState(false);
   const [mapRef, setMapRef] = useState(null);
+  
+  // Animation value for theme toggle
+  const toggleAnimation = useRef(new Animated.Value(0)).current;
 
   // Effect to toggle traffic when tab changes
   useEffect(() => {
@@ -419,6 +709,16 @@ export default function HomeScreen() {
       }, 100);
     }
   }, [darkMode, mapRef]);
+
+  // Effect to animate toggle when dark mode changes
+  useEffect(() => {
+    Animated.spring(toggleAnimation, {
+      toValue: darkMode ? 1 : 0,
+      useNativeDriver: false,
+      friction: 6,
+      tension: 40,
+    }).start();
+  }, [darkMode, toggleAnimation]);
 
   // Toggle dark mode
   const toggleDarkMode = () => {
@@ -480,8 +780,15 @@ export default function HomeScreen() {
                   latitude: crime.latitude,
                   longitude: crime.longitude,
                 }}
-                pinColor="red"
               >
+                {/* Custom Emoji Marker */}
+                <View style={[
+                  styles.emojiMarker, 
+                  { backgroundColor: darkMode ? 'rgba(30, 30, 30, 0.85)' : 'rgba(255, 255, 255, 0.85)' }
+                ]}>
+                  <Text style={styles.emojiText}>{crime.emoji}</Text>
+                </View>
+                
                 <Callout tooltip>
                   <View style={[styles.calloutStyle, { backgroundColor: theme.calloutBackground, borderColor: theme.calloutBorder }]}>
                     <View style={styles.calloutHeader}>
@@ -499,7 +806,6 @@ export default function HomeScreen() {
           </>
         );
       case 'traffic':
-        // We don't need to return anything here as we're using the built-in traffic layer
         return null;
       default:
         return null;
@@ -534,6 +840,22 @@ export default function HomeScreen() {
 
   // Render settings panel
   const renderSettings = () => {
+    // Calculate animated properties
+    const toggleTranslateX = toggleAnimation.interpolate({
+      inputRange: [0, 1],
+      outputRange: [0, 22]
+    });
+    
+    const toggleBackgroundColor = toggleAnimation.interpolate({
+      inputRange: [0, 1],
+      outputRange: ['#f9d71c', '#1a1a2e']
+    });
+    
+    const circleBackgroundColor = toggleAnimation.interpolate({
+      inputRange: [0, 1],
+      outputRange: ['white', '#444']
+    });
+
     return (
       <View style={[styles.settingsPanel, { backgroundColor: darkMode ? '#222' : '#333' }]}>
         <View style={[styles.settingsHeader, { borderBottomColor: darkMode ? '#444' : '#555' }]}>
@@ -548,12 +870,30 @@ export default function HomeScreen() {
         
         <View style={[styles.settingItem, { borderBottomColor: darkMode ? '#444' : '#555' }]}>
           <Text style={styles.settingLabel}>Dark Mode</Text>
-          <Switch
-            value={darkMode}
-            onValueChange={toggleDarkMode}
-            trackColor={{ false: "#767577", true: "#81b0ff" }}
-            thumbColor={darkMode ? "#f5dd4b" : "#f4f3f4"}
-          />
+          <TouchableOpacity 
+            style={[styles.themeToggle]}
+            activeOpacity={0.8}
+            onPress={toggleDarkMode}
+          >
+            <Animated.View style={[
+              styles.themeToggle, 
+              { backgroundColor: toggleBackgroundColor }
+            ]}>
+              <Animated.View style={[
+                styles.themeToggleCircle, 
+                { 
+                  backgroundColor: circleBackgroundColor,
+                  transform: [{ translateX: toggleTranslateX }] 
+                }
+              ]}>
+                {darkMode ? (
+                  <Ionicons name="moon" size={16} color="#f9d71c" />
+                ) : (
+                  <Ionicons name="sunny" size={16} color="#f9d71c" />
+                )}
+              </Animated.View>
+            </Animated.View>
+          </TouchableOpacity>
         </View>
         
         <TouchableOpacity style={[styles.settingButton, { borderBottomColor: darkMode ? '#444' : '#555' }]}>
@@ -964,5 +1304,50 @@ const styles = StyleSheet.create({
   legendText: {
     color: 'white',
     fontSize: 12,
+  },
+  // Emoji Marker Styles
+  emojiMarker: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    backgroundColor: 'rgba(255, 255, 255, 0.9)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 2,
+    borderColor: '#ff4d4d',
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  emojiText: {
+    fontSize: 18,
+  },
+  // Theme Toggle Styles
+  themeToggle: {
+    width: 50,
+    height: 28,
+    borderRadius: 14,
+    padding: 2,
+    justifyContent: 'center',
+  },
+  themeToggleCircle: {
+    width: 24,
+    height: 24,
+    borderRadius: 12,
+    justifyContent: 'center',
+    alignItems: 'center',
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
   },
 });
