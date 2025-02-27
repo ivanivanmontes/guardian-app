@@ -8,6 +8,9 @@ const crimeData = [
     id: 1,
     title: "Robbery",
     description: "Reported 20 mins ago",
+    time: "2023-06-15 14:30",
+    emoji: "🔫",
+    details: "Armed robbery at convenience store. Suspect fled on foot.",
     latitude: 40.732,
     longitude: -73.996,
   },
@@ -15,6 +18,9 @@ const crimeData = [
     id: 2,
     title: "Assault",
     description: "Reported 1 hour ago",
+    time: "2023-06-15 13:45",
+    emoji: "👊",
+    details: "Physical altercation between two individuals. One person injured.",
     latitude: 40.730,
     longitude: -73.998,
   },
@@ -22,6 +28,9 @@ const crimeData = [
     id: 3,
     title: "Burglary",
     description: "Reported yesterday",
+    time: "2023-06-14 23:15",
+    emoji: "🏠",
+    details: "Forced entry through back window. Electronics and jewelry stolen.",
     latitude: 40.731,
     longitude: -73.997,
   },
@@ -52,8 +61,14 @@ export default function HomeScreen() {
           >
             <Callout tooltip>
               <View style={styles.calloutStyle}>
-                <Text style={styles.title}>{crime.title}</Text>
+                <View style={styles.calloutHeader}>
+                  <Text style={styles.emoji}>{crime.emoji}</Text>
+                  <Text style={styles.title}>{crime.title}</Text>
+                </View>
+                <View style={styles.divider} />
                 <Text style={styles.description}>{crime.description}</Text>
+                <Text style={styles.time}>Time: {crime.time}</Text>
+                <Text style={styles.details}>{crime.details}</Text>
               </View>
             </Callout>
           </Marker>
@@ -72,20 +87,54 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   calloutStyle: {
-    width: 160,
-    padding: 10,
-    backgroundColor: '#333', // Darker background
-    borderRadius: 10,
-    borderColor: 'red', // Border in red
-    borderWidth: 1,
+    width: 220,
+    padding: 12,
+    backgroundColor: 'rgba(40, 40, 40, 0.95)',
+    borderRadius: 12,
+    borderColor: '#ff4d4d',
+    borderWidth: 1.5,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  calloutHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 6,
+  },
+  emoji: {
+    fontSize: 20,
+    marginRight: 8,
   },
   title: {
     fontWeight: 'bold',
-    fontSize: 16,
-    color: 'white', // White text for contrast
+    fontSize: 18,
+    color: '#ff4d4d',
+  },
+  divider: {
+    height: 1,
+    backgroundColor: '#555',
+    marginVertical: 6,
   },
   description: {
     fontSize: 14,
-    color: 'lightgray',
+    color: '#e0e0e0',
+    marginBottom: 4,
+  },
+  time: {
+    fontSize: 13,
+    color: '#b0b0b0',
+    marginBottom: 4,
+    fontStyle: 'italic',
+  },
+  details: {
+    fontSize: 13,
+    color: '#d0d0d0',
+    lineHeight: 18,
   },
 });
