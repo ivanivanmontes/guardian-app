@@ -681,9 +681,19 @@ export default function HomeScreen() {
   const [darkMode, setDarkMode] = useState(false);
   const [showTraffic, setShowTraffic] = useState(false);
   const [mapRef, setMapRef] = useState(null);
+  const [showAbout, setShowAbout] = useState(false);
+  const [showMapPreferences, setShowMapPreferences] = useState(false);
+  const [mapType, setMapType] = useState('standard'); // standard, satellite, hybrid
+  const [showNotificationPreferences, setShowNotificationPreferences] = useState(false);
+  const [notificationRadius, setNotificationRadius] = useState(5); // Default 5 miles
+  const [showSignIn, setShowSignIn] = useState(false); // State for sign in modal
   
-  // Animation value for theme toggle
+  // Animation values
   const toggleAnimation = useRef(new Animated.Value(0)).current;
+  const aboutModalAnimation = useRef(new Animated.Value(0)).current;
+  const mapPreferencesAnimation = useRef(new Animated.Value(0)).current;
+  const notificationPreferencesAnimation = useRef(new Animated.Value(0)).current;
+  const signInModalAnimation = useRef(new Animated.Value(0)).current; // Animation for sign in modal
 
   // Effect to toggle traffic when tab changes
   useEffect(() => {
@@ -719,6 +729,82 @@ export default function HomeScreen() {
       tension: 40,
     }).start();
   }, [darkMode, toggleAnimation]);
+
+  // Effect to animate about modal
+  useEffect(() => {
+    if (showAbout) {
+      Animated.spring(aboutModalAnimation, {
+        toValue: 1,
+        useNativeDriver: true,
+        friction: 8,
+        tension: 40,
+        velocity: 3
+      }).start();
+    } else {
+      Animated.timing(aboutModalAnimation, {
+        toValue: 0,
+        duration: 200,
+        useNativeDriver: true
+      }).start();
+    }
+  }, [showAbout]);
+
+  // Effect to animate map preferences modal
+  useEffect(() => {
+    if (showMapPreferences) {
+      Animated.spring(mapPreferencesAnimation, {
+        toValue: 1,
+        useNativeDriver: true,
+        friction: 8,
+        tension: 40,
+        velocity: 3
+      }).start();
+    } else {
+      Animated.timing(mapPreferencesAnimation, {
+        toValue: 0,
+        duration: 200,
+        useNativeDriver: true
+      }).start();
+    }
+  }, [showMapPreferences]);
+
+  // Effect to animate notification preferences modal
+  useEffect(() => {
+    if (showNotificationPreferences) {
+      Animated.spring(notificationPreferencesAnimation, {
+        toValue: 1,
+        useNativeDriver: true,
+        friction: 8,
+        tension: 40,
+        velocity: 3
+      }).start();
+    } else {
+      Animated.timing(notificationPreferencesAnimation, {
+        toValue: 0,
+        duration: 200,
+        useNativeDriver: true
+      }).start();
+    }
+  }, [showNotificationPreferences]);
+
+  // Effect to animate sign in modal
+  useEffect(() => {
+    if (showSignIn) {
+      Animated.spring(signInModalAnimation, {
+        toValue: 1,
+        useNativeDriver: true,
+        friction: 8,
+        tension: 40,
+        velocity: 3
+      }).start();
+    } else {
+      Animated.timing(signInModalAnimation, {
+        toValue: 0,
+        duration: 200,
+        useNativeDriver: true
+      }).start();
+    }
+  }, [showSignIn]);
 
   // Toggle dark mode
   const toggleDarkMode = () => {
@@ -771,15 +857,15 @@ export default function HomeScreen() {
   const renderMapContent = () => {
     switch (activeTab) {
       case 'crime':
-        return (
+  return (
           <>
-            {crimeData.map((crime) => (
-              <Marker
-                key={crime.id}
-                coordinate={{
-                  latitude: crime.latitude,
-                  longitude: crime.longitude,
-                }}
+        {crimeData.map((crime) => (
+          <Marker
+            key={crime.id}
+            coordinate={{
+              latitude: crime.latitude,
+              longitude: crime.longitude,
+            }}
               >
                 {/* Custom Emoji Marker */}
                 <View style={[
@@ -789,7 +875,7 @@ export default function HomeScreen() {
                   <Text style={styles.emojiText}>{crime.emoji}</Text>
                 </View>
                 
-                <Callout tooltip>
+            <Callout tooltip>
                   <View style={[styles.calloutStyle, { backgroundColor: theme.calloutBackground, borderColor: theme.calloutBorder }]}>
                     <View style={styles.calloutHeader}>
                       <Text style={styles.emoji}>{crime.emoji}</Text>
@@ -799,10 +885,10 @@ export default function HomeScreen() {
                     <Text style={[styles.description, { color: theme.primaryText }]}>{crime.description}</Text>
                     <Text style={[styles.time, { color: theme.secondaryText }]}>Time: {crime.time}</Text>
                     <Text style={[styles.details, { color: theme.primaryText }]}>{crime.details}</Text>
-                  </View>
-                </Callout>
-              </Marker>
-            ))}
+              </View>
+            </Callout>
+          </Marker>
+        ))}
           </>
         );
       case 'traffic':
@@ -815,26 +901,43 @@ export default function HomeScreen() {
   // Render reports screen
   const renderReports = () => {
     return (
-      <SafeAreaView style={[styles.reportsContainer, { backgroundColor: theme.backgroundColor }]}>
-        <View style={[styles.reportsHeader, { backgroundColor: darkMode ? '#222' : '#000' }]}>
-          <Text style={styles.reportsTitle}>Community Reports</Text>
-        </View>
-        <ScrollView style={styles.reportsList}>
-          {reportsData.map((report) => (
-            <View key={report.id} style={[styles.reportCard, { backgroundColor: theme.cardBackground }]}>
-              <Text style={[styles.reportTitle, { color: theme.primaryText }]}>{report.title}</Text>
-              <Text style={[styles.reportLocation, { color: theme.secondaryText }]}>
-                <Ionicons name="location" size={16} color={theme.secondaryText} /> {report.location}
-              </Text>
-              <Text style={[styles.reportTime, { color: theme.secondaryText }]}>
-                <Ionicons name="time" size={16} color={theme.secondaryText} /> {report.time}
-              </Text>
-              <Text style={[styles.reportDescription, { color: theme.primaryText }]}>{report.description}</Text>
-              <Text style={[styles.reportedBy, { color: theme.tertiaryText }]}>Reported by: {report.reportedBy}</Text>
-            </View>
-          ))}
-        </ScrollView>
-      </SafeAreaView>
+      <View style={{flex: 1, backgroundColor: darkMode ? '#222' : '#fff'}}>
+        <SafeAreaView style={[styles.reportsContainer, { 
+          backgroundColor: darkMode ? '#222' : '#fff',
+          flex: 1
+        }]}>
+          <View style={[styles.reportsHeader, { backgroundColor: darkMode ? '#222' : '#fff' }]}>
+            <Text style={[styles.reportsTitle, { color: darkMode ? '#fff' : '#000' }]}>Community Reports</Text>
+            <TouchableOpacity 
+              style={styles.addReportButton}
+              onPress={() => alert('Add Report feature will be implemented in the next update!')}
+            >
+              <Ionicons name="add-circle" size={24} color="#FFC107" />
+              <Text style={styles.addReportText}>Add Report</Text>
+            </TouchableOpacity>
+          </View>
+          <ScrollView 
+            style={styles.reportsList}
+            contentContainerStyle={styles.reportsListContent}
+          >
+            {reportsData.map((report) => (
+              <View key={report.id} style={[styles.reportCard, { backgroundColor: theme.cardBackground }]}>
+                <Text style={[styles.reportTitle, { color: theme.primaryText }]}>{report.title}</Text>
+                <Text style={[styles.reportLocation, { color: theme.secondaryText }]}>
+                  <Ionicons name="location" size={16} color={theme.secondaryText} /> {report.location}
+                </Text>
+                <Text style={[styles.reportTime, { color: theme.secondaryText }]}>
+                  <Ionicons name="time" size={16} color={theme.secondaryText} /> {report.time}
+                </Text>
+                <Text style={[styles.reportDescription, { color: theme.primaryText }]}>{report.description}</Text>
+                <Text style={[styles.reportedBy, { color: theme.tertiaryText }]}>Reported by: {report.reportedBy}</Text>
+              </View>
+            ))}
+            {/* Add extra padding at the bottom for better scrolling */}
+            <View style={styles.reportsBottomPadding} />
+          </ScrollView>
+        </SafeAreaView>
+      </View>
     );
   };
 
@@ -896,26 +999,604 @@ export default function HomeScreen() {
           </TouchableOpacity>
         </View>
         
-        <TouchableOpacity style={[styles.settingButton, { borderBottomColor: darkMode ? '#444' : '#555' }]}>
+        <TouchableOpacity 
+          style={[styles.settingButton, { borderBottomColor: darkMode ? '#444' : '#555' }]}
+          onPress={() => setShowSignIn(true)}
+        >
           <Ionicons name="person-circle-outline" size={20} color="white" />
           <Text style={styles.settingButtonText}>Sign In / Register</Text>
         </TouchableOpacity>
         
-        <TouchableOpacity style={[styles.settingButton, { borderBottomColor: darkMode ? '#444' : '#555' }]}>
+        <TouchableOpacity 
+          style={[styles.settingButton, { borderBottomColor: darkMode ? '#444' : '#555' }]}
+          onPress={() => setShowNotificationPreferences(true)}
+        >
           <Ionicons name="notifications-outline" size={20} color="white" />
           <Text style={styles.settingButtonText}>Notification Preferences</Text>
         </TouchableOpacity>
         
-        <TouchableOpacity style={[styles.settingButton, { borderBottomColor: darkMode ? '#444' : '#555' }]}>
+        <TouchableOpacity 
+          style={[styles.settingButton, { borderBottomColor: darkMode ? '#444' : '#555' }]}
+          onPress={() => setShowMapPreferences(true)}
+        >
           <Ionicons name="map-outline" size={20} color="white" />
           <Text style={styles.settingButtonText}>Map Preferences</Text>
         </TouchableOpacity>
         
-        <TouchableOpacity style={[styles.settingButton, { borderBottomColor: darkMode ? '#444' : '#555' }]}>
+        <TouchableOpacity 
+          style={[styles.settingButton, { borderBottomColor: darkMode ? '#444' : '#555' }]}
+          onPress={() => setShowAbout(true)}
+        >
           <Ionicons name="information-circle-outline" size={20} color="white" />
           <Text style={styles.settingButtonText}>About</Text>
         </TouchableOpacity>
       </View>
+    );
+  };
+
+  // Render about modal
+  const renderAboutModal = () => {
+    const modalScale = aboutModalAnimation.interpolate({
+      inputRange: [0, 1],
+      outputRange: [0.8, 1]
+    });
+    
+    const modalOpacity = aboutModalAnimation.interpolate({
+      inputRange: [0, 1],
+      outputRange: [0, 1]
+    });
+
+    return (
+      <Animated.View 
+        style={[
+          styles.modalOverlay,
+          { opacity: aboutModalAnimation }
+        ]}
+        pointerEvents={showAbout ? 'auto' : 'none'}
+      >
+        <Animated.View 
+          style={[
+            styles.aboutModal, 
+            { 
+              backgroundColor: darkMode ? '#222' : '#fff',
+              transform: [{ scale: modalScale }],
+              opacity: modalOpacity
+            }
+          ]}
+        >
+          <View style={styles.aboutHeader}>
+            <Text style={[styles.aboutTitle, { color: darkMode ? '#fff' : '#000' }]}>About</Text>
+            <TouchableOpacity onPress={() => setShowAbout(false)}>
+              <Ionicons name="close" size={24} color={darkMode ? '#fff' : '#000'} />
+            </TouchableOpacity>
+          </View>
+          
+          <View style={styles.aboutContent}>
+            <Ionicons name="shield-checkmark" size={60} color="#FFC107" style={styles.aboutIcon} />
+            
+            <Text style={[styles.aboutAppName, { color: darkMode ? '#fff' : '#000' }]}>
+              Guardian iOS App
+            </Text>
+            
+            <Text style={[styles.aboutVersion, { color: darkMode ? '#bbb' : '#555' }]}>
+              Version 0.4 (20620.2.25.11)
+            </Text>
+            
+            <Text style={[styles.aboutCopyright, { color: darkMode ? '#aaa' : '#666' }]}>
+              Copyright © 2025 Guardian Inc.
+            </Text>
+            
+            <Text style={[styles.aboutRights, { color: darkMode ? '#aaa' : '#666' }]}>
+              All rights reserved.
+            </Text>
+          </View>
+        </Animated.View>
+      </Animated.View>
+    );
+  };
+
+  // Render map preferences modal
+  const renderMapPreferencesModal = () => {
+    const modalScale = mapPreferencesAnimation.interpolate({
+      inputRange: [0, 1],
+      outputRange: [0.8, 1]
+    });
+    
+    const modalOpacity = mapPreferencesAnimation.interpolate({
+      inputRange: [0, 1],
+      outputRange: [0, 1]
+    });
+
+    return (
+      <Animated.View 
+        style={[
+          styles.modalOverlay,
+          { opacity: mapPreferencesAnimation }
+        ]}
+        pointerEvents={showMapPreferences ? 'auto' : 'none'}
+      >
+        <Animated.View 
+          style={[
+            styles.aboutModal, 
+            { 
+              backgroundColor: darkMode ? '#222' : '#fff',
+              transform: [{ scale: modalScale }],
+              opacity: modalOpacity
+            }
+          ]}
+        >
+          <View style={styles.aboutHeader}>
+            <Text style={[styles.aboutTitle, { color: darkMode ? '#fff' : '#000' }]}>Map Preferences</Text>
+            <TouchableOpacity onPress={() => setShowMapPreferences(false)}>
+              <Ionicons name="close" size={24} color={darkMode ? '#fff' : '#000'} />
+            </TouchableOpacity>
+          </View>
+          
+          <View style={styles.mapPreferencesContent}>
+            <Text style={[styles.mapPreferencesTitle, { color: darkMode ? '#fff' : '#000' }]}>
+              Map Type
+            </Text>
+            
+            <TouchableOpacity 
+              style={[
+                styles.mapTypeOption, 
+                mapType === 'standard' && styles.mapTypeSelected,
+                { borderColor: darkMode ? '#444' : '#ddd' }
+              ]}
+              onPress={() => {
+                setMapType('standard');
+                setShowMapPreferences(false);
+              }}
+            >
+              <Ionicons 
+                name="map-outline" 
+                size={24} 
+                color={mapType === 'standard' ? '#FFC107' : (darkMode ? '#fff' : '#000')} 
+              />
+              <View style={styles.mapTypeTextContainer}>
+                <Text style={[
+                  styles.mapTypeText, 
+                  { color: darkMode ? '#fff' : '#000' }
+                ]}>
+                  Standard
+                </Text>
+                <Text style={[
+                  styles.mapTypeDescription, 
+                  { color: darkMode ? '#aaa' : '#666' }
+                ]}>
+                  Default map view with streets and landmarks
+                </Text>
+              </View>
+              {mapType === 'standard' && (
+                <Ionicons name="checkmark-circle" size={24} color="#FFC107" />
+              )}
+            </TouchableOpacity>
+            
+            <TouchableOpacity 
+              style={[
+                styles.mapTypeOption, 
+                mapType === 'satellite' && styles.mapTypeSelected,
+                { borderColor: darkMode ? '#444' : '#ddd' }
+              ]}
+              onPress={() => {
+                setMapType('satellite');
+                setShowMapPreferences(false);
+              }}
+            >
+              <Ionicons 
+                name="earth" 
+                size={24} 
+                color={mapType === 'satellite' ? '#FFC107' : (darkMode ? '#fff' : '#000')} 
+              />
+              <View style={styles.mapTypeTextContainer}>
+                <Text style={[
+                  styles.mapTypeText, 
+                  { color: darkMode ? '#fff' : '#000' }
+                ]}>
+                  Satellite
+                </Text>
+                <Text style={[
+                  styles.mapTypeDescription, 
+                  { color: darkMode ? '#aaa' : '#666' }
+                ]}>
+                  Satellite imagery of the area
+                </Text>
+              </View>
+              {mapType === 'satellite' && (
+                <Ionicons name="checkmark-circle" size={24} color="#FFC107" />
+              )}
+            </TouchableOpacity>
+            
+            <TouchableOpacity 
+              style={[
+                styles.mapTypeOption, 
+                mapType === 'hybrid' && styles.mapTypeSelected,
+                { borderColor: darkMode ? '#444' : '#ddd' }
+              ]}
+              onPress={() => {
+                setMapType('hybrid');
+                setShowMapPreferences(false);
+              }}
+            >
+              <Ionicons 
+                name="globe-outline" 
+                size={24} 
+                color={mapType === 'hybrid' ? '#FFC107' : (darkMode ? '#fff' : '#000')} 
+              />
+              <View style={styles.mapTypeTextContainer}>
+                <Text style={[
+                  styles.mapTypeText, 
+                  { color: darkMode ? '#fff' : '#000' }
+                ]}>
+                  Hybrid
+                </Text>
+                <Text style={[
+                  styles.mapTypeDescription, 
+                  { color: darkMode ? '#aaa' : '#666' }
+                ]}>
+                  Satellite imagery with street names
+                </Text>
+              </View>
+              {mapType === 'hybrid' && (
+                <Ionicons name="checkmark-circle" size={24} color="#FFC107" />
+              )}
+            </TouchableOpacity>
+            
+            <TouchableOpacity 
+              style={[
+                styles.mapTypeOption, 
+                mapType === 'terrain' && styles.mapTypeSelected,
+                { borderColor: darkMode ? '#444' : '#ddd' }
+              ]}
+              onPress={() => {
+                setMapType('terrain');
+                setShowMapPreferences(false);
+              }}
+            >
+              <Ionicons 
+                name="trail-sign-outline" 
+                size={24} 
+                color={mapType === 'terrain' ? '#FFC107' : (darkMode ? '#fff' : '#000')} 
+              />
+              <View style={styles.mapTypeTextContainer}>
+                <Text style={[
+                  styles.mapTypeText, 
+                  { color: darkMode ? '#fff' : '#000' }
+                ]}>
+                  Terrain
+                </Text>
+                <Text style={[
+                  styles.mapTypeDescription, 
+                  { color: darkMode ? '#aaa' : '#666' }
+                ]}>
+                  Topographic details with roads and labels
+                </Text>
+              </View>
+              {mapType === 'terrain' && (
+                <Ionicons name="checkmark-circle" size={24} color="#FFC107" />
+              )}
+            </TouchableOpacity>
+          </View>
+        </Animated.View>
+      </Animated.View>
+    );
+  };
+
+  // Render notification preferences modal
+  const renderNotificationPreferencesModal = () => {
+    const modalScale = notificationPreferencesAnimation.interpolate({
+      inputRange: [0, 1],
+      outputRange: [0.8, 1]
+    });
+    
+    const modalOpacity = notificationPreferencesAnimation.interpolate({
+      inputRange: [0, 1],
+      outputRange: [0, 1]
+    });
+
+    return (
+      <Animated.View 
+        style={[
+          styles.modalOverlay,
+          { opacity: notificationPreferencesAnimation }
+        ]}
+        pointerEvents={showNotificationPreferences ? 'auto' : 'none'}
+      >
+        <Animated.View 
+          style={[
+            styles.aboutModal, 
+            { 
+              backgroundColor: darkMode ? '#222' : '#fff',
+              transform: [{ scale: modalScale }],
+              opacity: modalOpacity
+            }
+          ]}
+        >
+          <View style={styles.aboutHeader}>
+            <Text style={[styles.aboutTitle, { color: darkMode ? '#fff' : '#000' }]}>Notification Preferences</Text>
+            <TouchableOpacity onPress={() => setShowNotificationPreferences(false)}>
+              <Ionicons name="close" size={24} color={darkMode ? '#fff' : '#000'} />
+            </TouchableOpacity>
+          </View>
+          
+          <View style={styles.notificationPreferencesContent}>
+            <Text style={[styles.notificationPreferencesTitle, { color: darkMode ? '#fff' : '#000' }]}>
+              Alert Radius
+            </Text>
+            <Text style={[styles.notificationPreferencesDescription, { color: darkMode ? '#aaa' : '#666' }]}>
+              Receive alerts for incidents within:
+            </Text>
+            
+            <TouchableOpacity 
+              style={[
+                styles.radiusOption, 
+                notificationRadius === 5 && styles.radiusOptionSelected,
+                { borderColor: darkMode ? '#444' : '#ddd' }
+              ]}
+              onPress={() => setNotificationRadius(5)}
+            >
+              <View style={styles.radiusIconContainer}>
+                <Ionicons 
+                  name="notifications" 
+                  size={24} 
+                  color={notificationRadius === 5 ? '#FFC107' : (darkMode ? '#fff' : '#000')} 
+                />
+                <View style={[
+                  styles.radiusCircle, 
+                  { borderColor: notificationRadius === 5 ? '#FFC107' : (darkMode ? '#555' : '#ccc') }
+                ]}>
+                  <View style={styles.radiusInnerCircle} />
+                </View>
+              </View>
+              <View style={styles.radiusTextContainer}>
+                <Text style={[
+                  styles.radiusText, 
+                  { color: darkMode ? '#fff' : '#000' }
+                ]}>
+                  Within 5 miles
+                </Text>
+                <Text style={[
+                  styles.radiusDescription, 
+                  { color: darkMode ? '#aaa' : '#666' }
+                ]}>
+                  Immediate neighborhood alerts
+                </Text>
+              </View>
+              {notificationRadius === 5 && (
+                <Ionicons name="checkmark-circle" size={24} color="#FFC107" />
+              )}
+            </TouchableOpacity>
+            
+            <TouchableOpacity 
+              style={[
+                styles.radiusOption, 
+                notificationRadius === 10 && styles.radiusOptionSelected,
+                { borderColor: darkMode ? '#444' : '#ddd' }
+              ]}
+              onPress={() => setNotificationRadius(10)}
+            >
+              <View style={styles.radiusIconContainer}>
+                <Ionicons 
+                  name="notifications" 
+                  size={24} 
+                  color={notificationRadius === 10 ? '#FFC107' : (darkMode ? '#fff' : '#000')} 
+                />
+                <View style={[
+                  styles.radiusCircle, 
+                  styles.radiusMedium,
+                  { borderColor: notificationRadius === 10 ? '#FFC107' : (darkMode ? '#555' : '#ccc') }
+                ]}>
+                  <View style={styles.radiusInnerCircle} />
+                </View>
+              </View>
+              <View style={styles.radiusTextContainer}>
+                <Text style={[
+                  styles.radiusText, 
+                  { color: darkMode ? '#fff' : '#000' }
+                ]}>
+                  Within 10 miles
+                </Text>
+                <Text style={[
+                  styles.radiusDescription, 
+                  { color: darkMode ? '#aaa' : '#666' }
+                ]}>
+                  Local area coverage
+                </Text>
+              </View>
+              {notificationRadius === 10 && (
+                <Ionicons name="checkmark-circle" size={24} color="#FFC107" />
+              )}
+            </TouchableOpacity>
+            
+            <TouchableOpacity 
+              style={[
+                styles.radiusOption, 
+                notificationRadius === 15 && styles.radiusOptionSelected,
+                { borderColor: darkMode ? '#444' : '#ddd' }
+              ]}
+              onPress={() => setNotificationRadius(15)}
+            >
+              <View style={styles.radiusIconContainer}>
+                <Ionicons 
+                  name="notifications" 
+                  size={24} 
+                  color={notificationRadius === 15 ? '#FFC107' : (darkMode ? '#fff' : '#000')} 
+                />
+                <View style={[
+                  styles.radiusCircle, 
+                  styles.radiusLarge,
+                  { borderColor: notificationRadius === 15 ? '#FFC107' : (darkMode ? '#555' : '#ccc') }
+                ]}>
+                  <View style={styles.radiusInnerCircle} />
+                </View>
+              </View>
+              <View style={styles.radiusTextContainer}>
+                <Text style={[
+                  styles.radiusText, 
+                  { color: darkMode ? '#fff' : '#000' }
+                ]}>
+                  Within 15 miles
+                </Text>
+                <Text style={[
+                  styles.radiusDescription, 
+                  { color: darkMode ? '#aaa' : '#666' }
+                ]}>
+                  Broader regional coverage
+                </Text>
+              </View>
+              {notificationRadius === 15 && (
+                <Ionicons name="checkmark-circle" size={24} color="#FFC107" />
+              )}
+            </TouchableOpacity>
+            
+            <TouchableOpacity 
+              style={[
+                styles.radiusOption, 
+                notificationRadius === 20 && styles.radiusOptionSelected,
+                { borderColor: darkMode ? '#444' : '#ddd' }
+              ]}
+              onPress={() => setNotificationRadius(20)}
+            >
+              <View style={styles.radiusIconContainer}>
+                <Ionicons 
+                  name="notifications" 
+                  size={24} 
+                  color={notificationRadius === 20 ? '#FFC107' : (darkMode ? '#fff' : '#000')} 
+                />
+                <View style={[
+                  styles.radiusCircle, 
+                  styles.radiusExtraLarge,
+                  { borderColor: notificationRadius === 20 ? '#FFC107' : (darkMode ? '#555' : '#ccc') }
+                ]}>
+                  <View style={styles.radiusInnerCircle} />
+                </View>
+              </View>
+              <View style={styles.radiusTextContainer}>
+                <Text style={[
+                  styles.radiusText, 
+                  { color: darkMode ? '#fff' : '#000' }
+                ]}>
+                  Within 20 miles
+                </Text>
+                <Text style={[
+                  styles.radiusDescription, 
+                  { color: darkMode ? '#aaa' : '#666' }
+                ]}>
+                  Metropolitan area coverage
+                </Text>
+              </View>
+              {notificationRadius === 20 && (
+                <Ionicons name="checkmark-circle" size={24} color="#FFC107" />
+              )}
+            </TouchableOpacity>
+            
+            <TouchableOpacity 
+              style={[
+                styles.saveButton,
+                { backgroundColor: darkMode ? '#333' : '#f0f0f0' }
+              ]}
+              onPress={() => setShowNotificationPreferences(false)}
+            >
+              <Text style={[
+                styles.saveButtonText,
+                { color: darkMode ? '#fff' : '#000' }
+              ]}>
+                Save Preferences
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </Animated.View>
+      </Animated.View>
+    );
+  };
+
+  // Render sign in modal
+  const renderSignInModal = () => {
+    const modalScale = signInModalAnimation.interpolate({
+      inputRange: [0, 1],
+      outputRange: [0.8, 1]
+    });
+    
+    const modalOpacity = signInModalAnimation.interpolate({
+      inputRange: [0, 1],
+      outputRange: [0, 1]
+    });
+
+    return (
+      <Animated.View 
+        style={[
+          styles.modalOverlay,
+          { opacity: signInModalAnimation }
+        ]}
+        pointerEvents={showSignIn ? 'auto' : 'none'}
+      >
+        <Animated.View 
+          style={[
+            styles.aboutModal, 
+            { 
+              backgroundColor: darkMode ? '#222' : '#fff',
+              transform: [{ scale: modalScale }],
+              opacity: modalOpacity
+            }
+          ]}
+        >
+          <View style={styles.aboutHeader}>
+            <Text style={[styles.aboutTitle, { color: darkMode ? '#fff' : '#000' }]}>Sign In / Register</Text>
+            <TouchableOpacity onPress={() => setShowSignIn(false)}>
+              <Ionicons name="close" size={24} color={darkMode ? '#fff' : '#000'} />
+            </TouchableOpacity>
+          </View>
+          
+          <View style={styles.signInContent}>
+            <Ionicons name="person-circle" size={60} color="#FFC107" style={styles.aboutIcon} />
+            
+            <View style={styles.inputContainer}>
+              <Text style={[styles.inputLabel, { color: darkMode ? '#fff' : '#000' }]}>Email</Text>
+              <View style={[styles.inputField, { backgroundColor: darkMode ? '#333' : '#f5f5f5', borderColor: darkMode ? '#444' : '#ddd' }]}>
+                <Ionicons name="mail-outline" size={20} color={darkMode ? '#aaa' : '#666'} />
+                <Text style={[styles.placeholderText, { color: darkMode ? '#aaa' : '#999' }]}>Enter your email</Text>
+              </View>
+            </View>
+            
+            <View style={styles.inputContainer}>
+              <Text style={[styles.inputLabel, { color: darkMode ? '#fff' : '#000' }]}>Password</Text>
+              <View style={[styles.inputField, { backgroundColor: darkMode ? '#333' : '#f5f5f5', borderColor: darkMode ? '#444' : '#ddd' }]}>
+                <Ionicons name="lock-closed-outline" size={20} color={darkMode ? '#aaa' : '#666'} />
+                <Text style={[styles.placeholderText, { color: darkMode ? '#aaa' : '#999' }]}>Enter your password</Text>
+              </View>
+            </View>
+            
+            <TouchableOpacity 
+              style={styles.signInButton}
+              onPress={() => {
+                alert('Sign in functionality will be implemented in the next update!');
+                setShowSignIn(false);
+              }}
+            >
+              <Text style={styles.signInButtonText}>Sign In</Text>
+            </TouchableOpacity>
+            
+            <TouchableOpacity 
+              style={styles.registerButton}
+              onPress={() => {
+                alert('Registration functionality will be implemented in the next update!');
+                setShowSignIn(false);
+              }}
+            >
+              <Text style={styles.registerButtonText}>Register</Text>
+            </TouchableOpacity>
+            
+            <TouchableOpacity 
+              style={styles.forgotPasswordButton}
+              onPress={() => {
+                alert('Password recovery will be implemented in the next update!');
+              }}
+            >
+              <Text style={[styles.forgotPasswordText, { color: darkMode ? '#aaa' : '#666' }]}>Forgot Password?</Text>
+            </TouchableOpacity>
+          </View>
+        </Animated.View>
+      </Animated.View>
     );
   };
 
@@ -935,9 +1616,10 @@ export default function HomeScreen() {
           customMapStyle={getMapStyle()}
           showsTraffic={showTraffic}
           trafficEnabled={showTraffic}
+          mapType={mapType}
         >
           {renderMapContent()}
-        </MapView>
+      </MapView>
       ) : (
         renderReports()
       )}
@@ -965,11 +1647,18 @@ export default function HomeScreen() {
               <View style={[styles.legendColor, { backgroundColor: '#00FF00' }]} />
               <Text style={[styles.legendText, { color: darkMode ? 'white' : 'black' }]}>Flowing</Text>
             </View>
+            <Text style={[styles.legendUpdateText, { color: darkMode ? '#aaa' : '#666' }]}>
+              *Real-time traffic data
+            </Text>
           </View>
         </View>
       )}
 
       {showSettings && renderSettings()}
+      {renderAboutModal()}
+      {renderMapPreferencesModal()}
+      {renderNotificationPreferencesModal()}
+      {renderSignInModal()}
 
       {/* Bottom Menu Bar */}
       <View style={[styles.bottomMenu, { 
@@ -1058,7 +1747,7 @@ export default function HomeScreen() {
         </TouchableOpacity>
       </View>
       
-      <StatusBar style={darkMode ? "light" : "dark"} />
+      <StatusBar style={activeTab === 'reports' ? (darkMode ? "light" : "dark") : (darkMode ? "light" : "dark")} backgroundColor={activeTab === 'reports' ? (darkMode ? '#222' : '#fff') : 'transparent'} />
     </View>
   );
 }
@@ -1151,12 +1840,15 @@ const styles = StyleSheet.create({
   // Reports Screen Styles
   reportsContainer: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: '#000', // Changed to black
   },
   reportsHeader: {
     backgroundColor: '#000',
     padding: 16,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     alignItems: 'center',
+    paddingTop: Platform.OS === 'ios' ? 50 : 16, // Increased top padding for iOS status bar
   },
   reportsTitle: {
     color: 'white',
@@ -1165,7 +1857,13 @@ const styles = StyleSheet.create({
   },
   reportsList: {
     flex: 1,
+  },
+  reportsListContent: {
     padding: 16,
+    paddingBottom: 30, // Extra padding at the bottom
+  },
+  reportsBottomPadding: {
+    height: 50, // Extra space at the bottom of the list
   },
   reportCard: {
     backgroundColor: 'white',
@@ -1180,6 +1878,8 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 3.84,
     elevation: 3,
+    borderWidth: 0.5,
+    borderColor: '#e0e0e0',
   },
   reportTitle: {
     fontSize: 18,
@@ -1305,6 +2005,12 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 12,
   },
+  legendUpdateText: {
+    fontSize: 9,
+    marginTop: 2,
+    textAlign: 'center',
+    fontStyle: 'italic',
+  },
   // Emoji Marker Styles
   emojiMarker: {
     width: 36,
@@ -1349,5 +2055,271 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 5,
+  },
+  // About Modal Styles
+  modalOverlay: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    zIndex: 1000,
+  },
+  aboutModal: {
+    width: '80%',
+    backgroundColor: 'white',
+    borderRadius: 12,
+    padding: 20,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  aboutHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 20,
+  },
+  aboutTitle: {
+    fontSize: 22,
+    fontWeight: 'bold',
+  },
+  aboutContent: {
+    alignItems: 'center',
+    paddingVertical: 20,
+  },
+  aboutIcon: {
+    marginBottom: 20,
+  },
+  aboutAppName: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginBottom: 10,
+  },
+  aboutVersion: {
+    fontSize: 16,
+    marginBottom: 20,
+  },
+  aboutCopyright: {
+    fontSize: 14,
+    marginBottom: 5,
+  },
+  aboutRights: {
+    fontSize: 14,
+  },
+  // Map Preferences Styles
+  mapPreferencesContent: {
+    paddingVertical: 10,
+  },
+  mapPreferencesTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 15,
+  },
+  mapTypeOption: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 12,
+    paddingHorizontal: 10,
+    borderWidth: 1,
+    borderRadius: 8,
+    marginBottom: 10,
+  },
+  mapTypeSelected: {
+    borderColor: '#FFC107',
+    borderWidth: 2,
+  },
+  mapTypeTextContainer: {
+    flex: 1,
+    marginLeft: 15,
+  },
+  mapTypeText: {
+    fontSize: 16,
+    fontWeight: '500',
+  },
+  mapTypeDescription: {
+    fontSize: 12,
+    marginTop: 2,
+  },
+  // Notification Preferences Styles
+  notificationPreferencesContent: {
+    paddingVertical: 10,
+  },
+  notificationPreferencesTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 5,
+  },
+  notificationPreferencesDescription: {
+    fontSize: 14,
+    marginBottom: 15,
+  },
+  radiusOption: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 12,
+    paddingHorizontal: 10,
+    borderWidth: 1,
+    borderRadius: 8,
+    marginBottom: 10,
+  },
+  radiusOptionSelected: {
+    borderColor: '#FFC107',
+    borderWidth: 2,
+  },
+  radiusIconContainer: {
+    position: 'relative',
+    width: 40,
+    height: 40,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  radiusCircle: {
+    position: 'absolute',
+    width: 20,
+    height: 20,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderStyle: 'dashed',
+  },
+  radiusMedium: {
+    width: 26,
+    height: 26,
+    borderRadius: 13,
+  },
+  radiusLarge: {
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+  },
+  radiusExtraLarge: {
+    width: 38,
+    height: 38,
+    borderRadius: 19,
+  },
+  radiusInnerCircle: {
+    position: 'absolute',
+    width: 4,
+    height: 4,
+    borderRadius: 2,
+    backgroundColor: '#FFC107',
+    top: '50%',
+    left: '50%',
+    marginLeft: -2,
+    marginTop: -2,
+  },
+  radiusTextContainer: {
+    flex: 1,
+    marginLeft: 15,
+  },
+  radiusText: {
+    fontSize: 16,
+    fontWeight: '500',
+  },
+  radiusDescription: {
+    fontSize: 12,
+    marginTop: 2,
+  },
+  saveButton: {
+    marginTop: 10,
+    paddingVertical: 12,
+    borderRadius: 8,
+    alignItems: 'center',
+    backgroundColor: '#f0f0f0',
+  },
+  saveButtonText: {
+    fontSize: 16,
+    fontWeight: '600',
+  },
+  addReportButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: 'rgba(255, 193, 7, 0.2)',
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 20,
+    borderWidth: 1,
+    borderColor: '#FFC107',
+    marginRight: 5, // Added margin to avoid iPhone status elements
+  },
+  addReportText: {
+    color: '#FFC107',
+    marginLeft: 4,
+    fontWeight: '600',
+  },
+  signInContent: {
+    alignItems: 'center',
+    paddingVertical: 20,
+    width: '100%',
+    paddingHorizontal: 20,
+  },
+  inputContainer: {
+    width: '100%',
+    marginBottom: 15,
+  },
+  inputLabel: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginBottom: 8,
+  },
+  inputField: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 12,
+    borderWidth: 1,
+    borderColor: '#ddd',
+    borderRadius: 8,
+    width: '100%',
+  },
+  placeholderText: {
+    marginLeft: 10,
+    fontSize: 15,
+  },
+  signInButton: {
+    padding: 14,
+    borderRadius: 8,
+    backgroundColor: '#FFC107',
+    alignItems: 'center',
+    width: '100%',
+    marginTop: 10,
+    marginBottom: 10,
+  },
+  signInButtonText: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#000',
+  },
+  registerButton: {
+    padding: 14,
+    borderRadius: 8,
+    backgroundColor: 'transparent',
+    borderWidth: 1,
+    borderColor: '#FFC107',
+    alignItems: 'center',
+    width: '100%',
+    marginBottom: 10,
+  },
+  registerButtonText: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#FFC107',
+  },
+  forgotPasswordButton: {
+    padding: 10,
+    alignItems: 'center',
+    marginTop: 5,
+  },
+  forgotPasswordText: {
+    fontSize: 14,
+    textDecorationLine: 'underline',
   },
 });
