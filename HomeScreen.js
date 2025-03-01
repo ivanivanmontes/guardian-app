@@ -234,18 +234,25 @@ const crimeData = [
   {
     id: 1,
     title: "Robbery",
-    description: "Reported 20 mins ago",
-    time: "2023-06-15 14:30",
-    emoji: "🔫",
-    details: "Armed robbery at convenience store. Suspect fled on foot.",
-    latitude: 40.732,
-    longitude: -73.996,
+    time: "2025-03-01 10:35",
+    emoji: "💰",
+    details: "Armed robbery at convenience store. Suspect fled on foot. No injuries reported.",
+    latitude: 40.735,
+    longitude: -74.000,
   },
   {
     id: 2,
     title: "Assault",
-    description: "Reported 1 hour ago",
-    time: "2023-06-15 13:45",
+    time: "2025-03-01 06:45",
+    emoji: "👊",
+    details: "Victim assaulted near subway entrance. Suspect described as male in dark clothing.",
+    latitude: 40.725,
+    longitude: -74.005,
+  },
+  {
+    id: 3,
+    title: "Assault",
+    time: "2025-03-01 02:45",
     emoji: "👊",
     details: "Physical altercation between two individuals. One person injured.",
     latitude: 40.730,
@@ -254,8 +261,7 @@ const crimeData = [
   {
     id: 4,
     title: "Grand Theft Auto",
-    description: "Reported 3 hours ago",
-    time: "2023-06-15 11:20",
+    time: "2025-02-28 18:20",
     emoji: "🚗",
     details: "Vehicle stolen from parking lot. Black SUV, license plate ABC123.",
     latitude: 40.712,
@@ -264,8 +270,7 @@ const crimeData = [
   {
     id: 5,
     title: "Vandalism",
-    description: "Reported 2 hours ago",
-    time: "2023-06-15 12:45",
+    time: "2025-02-28 14:45",
     emoji: "🎨",
     details: "Graffiti and property damage to storefront. Security footage available.",
     latitude: 40.678,
@@ -274,8 +279,7 @@ const crimeData = [
   {
     id: 6,
     title: "Theft",
-    description: "Reported 45 mins ago",
-    time: "2023-06-15 14:00",
+    time: "2025-02-28 12:00",
     emoji: "💼",
     details: "Pickpocketing incident on subway platform. Wallet and phone stolen.",
     latitude: 40.750,
@@ -284,8 +288,7 @@ const crimeData = [
   {
     id: 7,
     title: "Drug Activity",
-    description: "Reported 4 hours ago",
-    time: "2023-06-15 10:15",
+    time: "2025-02-28 10:15",
     emoji: "💊",
     details: "Suspicious activity observed in park area. Multiple individuals involved.",
     latitude: 40.689,
@@ -294,8 +297,7 @@ const crimeData = [
   {
     id: 8,
     title: "Harassment",
-    description: "Reported 30 mins ago",
-    time: "2023-06-15 14:15",
+    time: "2025-02-28 08:15",
     emoji: "🗣️",
     details: "Verbal harassment of store employee. Suspect left scene.",
     latitude: 40.783,
@@ -304,8 +306,7 @@ const crimeData = [
   {
     id: 9,
     title: "Breaking & Entering",
-    description: "Reported 5 hours ago",
-    time: "2023-06-15 09:30",
+    time: "2025-02-27 22:30",
     emoji: "🔨",
     details: "Attempted break-in at residential building. No entry gained.",
     latitude: 40.671,
@@ -314,8 +315,7 @@ const crimeData = [
   {
     id: 10,
     title: "Public Disturbance",
-    description: "Reported 15 mins ago",
-    time: "2023-06-15 14:30",
+    time: "2025-02-27 20:30",
     emoji: "📢",
     details: "Large group causing disturbance outside nightclub. Police responding.",
     latitude: 40.742,
@@ -324,8 +324,7 @@ const crimeData = [
   {
     id: 11,
     title: "Shoplifting",
-    description: "Reported 35 mins ago",
-    time: "2023-06-15 14:10",
+    time: "2025-02-01 14:10",
     emoji: "🛍️",
     details: "Suspect took merchandise from boutique on Broadway. Store security in pursuit.",
     latitude: 40.725,
@@ -334,8 +333,7 @@ const crimeData = [
   {
     id: 12,
     title: "Bike Theft",
-    description: "Reported 2 hours ago",
-    time: "2023-06-15 12:30",
+    time: "2025-02-01 12:30",
     emoji: "🚲",
     details: "Electric bike stolen from outside restaurant. Lock was cut. Security camera footage available.",
     latitude: 40.728,
@@ -344,8 +342,7 @@ const crimeData = [
   {
     id: 13,
     title: "Assault",
-    description: "Reported 50 mins ago",
-    time: "2023-06-15 13:55",
+    time: "2025-03-01 15:55",
     emoji: "👊",
     details: "Fight broke out between two groups near Washington Square Park. Two individuals injured.",
     latitude: 40.731,
@@ -354,8 +351,7 @@ const crimeData = [
   {
     id: 14,
     title: "Vandalism",
-    description: "Reported 3 hours ago",
-    time: "2023-06-15 11:45",
+    time: "2025-02-01 11:45",
     emoji: "🎨",
     details: "Multiple vehicles damaged on street. Witnesses report seeing group of teenagers fleeing the scene.",
     latitude: 40.727,
@@ -364,8 +360,7 @@ const crimeData = [
   {
     id: 15,
     title: "Package Theft",
-    description: "Reported 1 hour ago",
-    time: "2023-06-15 13:30",
+    time: "2025-02-01 13:30",
     emoji: "📦",
     details: "Packages stolen from apartment building lobby. Suspect caught on security camera.",
     latitude: 40.726,
@@ -374,8 +369,7 @@ const crimeData = [
   {
     id: 16,
     title: "Public Intoxication",
-    description: "Reported 25 mins ago",
-    time: "2023-06-15 14:20",
+    time: "2025-03-01 04:20",
     emoji: "🍺",
     details: "Intoxicated individual causing disturbance at outdoor cafe. Refusing to leave premises.",
     latitude: 40.729,
@@ -384,8 +378,7 @@ const crimeData = [
   {
     id: 17,
     title: "Phone Snatching",
-    description: "Reported 40 mins ago",
-    time: "2023-06-15 14:05",
+    time: "2025-03-01 00:05",
     emoji: "📱",
     details: "Suspect on bicycle snatched phone from pedestrian's hand. Fled north on Lafayette Street.",
     latitude: 40.724,
@@ -394,8 +387,7 @@ const crimeData = [
   {
     id: 18,
     title: "Trespassing",
-    description: "Reported 4 hours ago",
-    time: "2023-06-15 10:45",
+    time: "2025-02-28 20:45",
     emoji: "🚪",
     details: "Unauthorized individual found in NYU building. Security escorted person from premises.",
     latitude: 40.730,
@@ -404,8 +396,7 @@ const crimeData = [
   {
     id: 19,
     title: "Drug Sale",
-    description: "Reported 2 hours ago",
-    time: "2023-06-15 12:40",
+    time: "2025-02-28 16:40",
     emoji: "💊",
     details: "Suspected drug transaction observed in park. Multiple individuals involved.",
     latitude: 40.732,
@@ -414,8 +405,7 @@ const crimeData = [
   {
     id: 20,
     title: "Harassment",
-    description: "Reported 1 hour ago",
-    time: "2023-06-15 13:35",
+    time: "2025-02-28 13:35",
     emoji: "🗣️",
     details: "Street performer being harassed by group of individuals. Situation escalating.",
     latitude: 40.727,
@@ -424,8 +414,7 @@ const crimeData = [
   {
     id: 21,
     title: "Bike Theft",
-    description: "Reported 30 mins ago",
-    time: "2023-06-15 14:15",
+    time: "2025-02-28 09:15",
     emoji: "🚲",
     details: "Locked bicycle stolen from outside restaurant on Bleecker Street. Security camera footage available.",
     latitude: 40.735,
@@ -434,8 +423,7 @@ const crimeData = [
   {
     id: 22,
     title: "Noise Complaint",
-    description: "Reported 15 mins ago",
-    time: "2023-06-15 14:30",
+    time: "2025-02-28 05:30",
     emoji: "🔊",
     details: "Loud music and shouting from apartment building. Multiple residents have complained.",
     latitude: 40.738,
@@ -444,8 +432,7 @@ const crimeData = [
   {
     id: 23,
     title: "Shoplifting",
-    description: "Reported 1 hour ago",
-    time: "2023-06-15 13:45",
+    time: "2025-02-27 23:45",
     emoji: "🛍️",
     details: "Suspect took merchandise from boutique on Christopher Street. Store security reviewing footage.",
     latitude: 40.733,
@@ -453,69 +440,80 @@ const crimeData = [
   },
   {
     id: 24,
-    title: "Public Intoxication",
-    description: "Reported 45 mins ago",
-    time: "2023-06-15 14:00",
-    emoji: "🍺",
-    details: "Intoxicated individual causing disturbance outside bar on Hudson Street. Refusing to leave area.",
-    latitude: 40.736,
-    longitude: -74.006, // Hudson Street
+    title: "Vandalism",
+    time: "2025-02-27 20:30",
+    emoji: "🖌️",
+    details: "Graffiti found on side of building. Property owner filing report with photos of damage.",
+    latitude: 40.729,
+    longitude: -73.989, // East Village
   },
   {
     id: 25,
-    title: "Vandalism",
-    description: "Reported 2 hours ago",
-    time: "2023-06-15 12:45",
-    emoji: "🎨",
-    details: "Graffiti found on historic building. Property damage estimated at $2,000.",
-    latitude: 40.732,
-    longitude: -74.007, // Western edge of West Village
+    title: "Suspicious Person",
+    time: "2025-02-27 18:15",
+    emoji: "🕵️",
+    details: "Individual looking into parked vehicles with flashlight. Wearing dark clothing and backpack.",
+    latitude: 40.736,
+    longitude: -73.991, // Gramercy area
   },
   {
     id: 26,
-    title: "Package Theft",
-    description: "Reported 3 hours ago",
-    time: "2023-06-15 11:45",
-    emoji: "📦",
-    details: "Multiple packages stolen from apartment building lobby on Bank Street. Suspect caught on camera.",
-    latitude: 40.737,
-    longitude: -74.002, // Bank Street
+    title: "Public Intoxication",
+    time: "2025-02-27 21:00",
+    emoji: "🍺",
+    details: "Intoxicated individual causing disturbance outside bar on Hudson Street. Refusing to leave area.",
+    latitude: 40.730,
+    longitude: -74.006, // Hudson Street
   },
   {
     id: 27,
-    title: "Suspicious Activity",
-    description: "Reported 25 mins ago",
-    time: "2023-06-15 14:20",
-    emoji: "👀",
-    details: "Individual seen trying door handles of parked cars on Perry Street. Wearing dark hoodie and backpack.",
-    latitude: 40.735,
-    longitude: -74.008, // Perry Street
+    title: "Vandalism",
+    time: "2025-02-27 15:45",
+    emoji: "🖌️",
+    details: "Graffiti found on storefront. Business owner requesting increased patrols in area.",
+    latitude: 40.725,
+    longitude: -73.990, // Lower East Side
   },
   {
     id: 28,
-    title: "Assault",
-    description: "Reported 50 mins ago",
-    time: "2023-06-15 13:55",
-    emoji: "👊",
-    details: "Fight broke out between patrons at bar on 7th Avenue. One person taken to hospital with minor injuries.",
-    latitude: 40.739,
-    longitude: -74.003, // 7th Avenue
+    title: "Package Theft",
+    time: "2025-02-27 12:30",
+    emoji: "📦",
+    details: "Package stolen from doorstep. Neighbor's security camera may have captured incident.",
+    latitude: 40.740,
+    longitude: -73.999, // Chelsea area
   },
   {
     id: 29,
+    title: "Suspicious Activity",
+    time: "2025-02-26 22:20",
+    emoji: "👀",
+    details: "Individual observed taking photos of building security features. Left area when approached.",
+    latitude: 40.731,
+    longitude: -73.987, // East Village
+  },
+  {
+    id: 30,
+    title: "Assault",
+    time: "2025-02-26 19:15",
+    emoji: "👊",
+    details: "Verbal argument escalated to physical altercation. One individual transported to hospital.",
+    latitude: 40.737,
+    longitude: -74.001, // Greenwich Village
+  },
+  {
+    id: 31,
     title: "Drug Activity",
-    description: "Reported 1.5 hours ago",
-    time: "2023-06-15 13:15",
+    time: "2025-02-26 17:15",
     emoji: "💊",
     details: "Suspected drug transaction observed in park. Multiple individuals involved, dispersed when approached.",
     latitude: 40.731,
     longitude: -74.004, // James J. Walker Park area
   },
   {
-    id: 30,
+    id: 32,
     title: "Harassment",
-    description: "Reported 40 mins ago",
-    time: "2023-06-15 14:05",
+    time: "2025-02-26 14:05",
     emoji: "🗣️",
     details: "Individual following and verbally harassing pedestrians on Greenwich Avenue. Described as male in red jacket.",
     latitude: 40.738,
@@ -557,7 +555,7 @@ const reportsData = [
     id: 1,
     title: "Suspicious Activity",
     location: "Central Park",
-    time: "2023-06-15 16:45",
+    time: "2025-01-15 16:45",
     description: "Group of individuals acting suspiciously near the fountain.",
     reportedBy: "Anonymous",
   },
@@ -565,7 +563,7 @@ const reportsData = [
     id: 2,
     title: "Broken Street Light",
     location: "5th Avenue & 23rd St",
-    time: "2023-06-14 22:30",
+    time: "2025-01-14 22:30",
     description: "Street light has been out for 3 days, creating a safety hazard.",
     reportedBy: "John D.",
   },
@@ -573,7 +571,7 @@ const reportsData = [
     id: 3,
     title: "Graffiti",
     location: "Broadway & Houston",
-    time: "2023-06-13 09:15",
+    time: "2025-01-13 09:15",
     description: "New graffiti on the side of the building.",
     reportedBy: "Local Business Owner",
   },
@@ -581,7 +579,7 @@ const reportsData = [
     id: 4,
     title: "Pothole",
     location: "Bleecker St & 6th Avenue",
-    time: "2023-06-15 08:20",
+    time: "2025-01-15 08:20",
     description: "Large pothole causing traffic to swerve. Nearly caused an accident this morning.",
     reportedBy: "Daily Commuter",
   },
@@ -589,7 +587,7 @@ const reportsData = [
     id: 5,
     title: "Abandoned Vehicle",
     location: "West 4th Street",
-    time: "2023-06-12 14:10",
+    time: "2025-01-12 14:10",
     description: "Black sedan with flat tires has been parked for over 2 weeks. Appears abandoned.",
     reportedBy: "Neighborhood Watch",
   },
@@ -597,7 +595,7 @@ const reportsData = [
     id: 6,
     title: "Noise Complaint",
     location: "Christopher Street",
-    time: "2023-06-15 01:30",
+    time: "2025-01-15 01:30",
     description: "Construction work happening after hours. Extremely loud drilling and hammering.",
     reportedBy: "Sleepless Resident",
   },
@@ -605,7 +603,7 @@ const reportsData = [
     id: 7,
     title: "Fallen Tree Branch",
     location: "Washington Square Park",
-    time: "2023-06-14 17:45",
+    time: "2025-01-14 17:45",
     description: "Large branch down after yesterday's storm. Blocking part of the walking path.",
     reportedBy: "Park Visitor",
   },
@@ -613,7 +611,7 @@ const reportsData = [
     id: 8,
     title: "Illegal Dumping",
     location: "Perry Street Alley",
-    time: "2023-06-13 22:15",
+    time: "2025-01-13 22:15",
     description: "Someone dumped furniture and construction debris in the alley. Creating an eyesore and blocking access.",
     reportedBy: "Concerned Citizen",
   },
@@ -621,7 +619,7 @@ const reportsData = [
     id: 9,
     title: "Water Main Break",
     location: "Hudson & Charles Street",
-    time: "2023-06-15 07:30",
+    time: "2025-02-01 07:30",
     description: "Water flooding the intersection. Road beginning to buckle. Needs immediate attention.",
     reportedBy: "Local Shop Owner",
   },
@@ -629,7 +627,7 @@ const reportsData = [
     id: 10,
     title: "Aggressive Panhandling",
     location: "West Village Subway Station",
-    time: "2023-06-14 19:20",
+    time: "2025-02-01 19:20",
     description: "Individual following commuters and becoming confrontational when refused.",
     reportedBy: "MTA Rider",
   },
@@ -637,7 +635,7 @@ const reportsData = [
     id: 11,
     title: "Broken Playground Equipment",
     location: "Abingdon Square Park",
-    time: "2023-06-13 15:40",
+    time: "2025-02-02 15:40",
     description: "Swing set has broken chain and sharp edges. Dangerous for children.",
     reportedBy: "Parent",
   },
@@ -645,7 +643,7 @@ const reportsData = [
     id: 12,
     title: "Blocked Fire Hydrant",
     location: "Greenwich Avenue",
-    time: "2023-06-15 11:25",
+    time: "2025-02-03 11:25",
     description: "Delivery truck parked in front of fire hydrant for over 3 hours. Safety hazard.",
     reportedBy: "Former Firefighter",
   },
@@ -653,7 +651,7 @@ const reportsData = [
     id: 13,
     title: "Public Urination",
     location: "Gansevoort Street",
-    time: "2023-06-14 23:50",
+    time: "2025-02-04 23:50",
     description: "Individuals leaving bars are regularly urinating in the doorway of closed businesses.",
     reportedBy: "Night Shift Worker",
   },
@@ -661,7 +659,7 @@ const reportsData = [
     id: 14,
     title: "Dangerous Intersection",
     location: "7th Ave & West 10th Street",
-    time: "2023-06-12 16:35",
+    time: "2025-02-05 16:35",
     description: "Traffic light timing too short for pedestrians to cross safely. Witnessed several near-misses.",
     reportedBy: "Senior Citizen",
   },
@@ -669,7 +667,7 @@ const reportsData = [
     id: 15,
     title: "Rat Infestation",
     location: "Behind restaurants on Carmine Street",
-    time: "2023-06-15 05:15",
+    time: "2025-02-06 05:15",
     description: "Significant increase in rat activity due to improper garbage storage. Health concern.",
     reportedBy: "Early Morning Dog Walker",
   }
@@ -695,9 +693,72 @@ export default function HomeScreen() {
   const notificationPreferencesAnimation = useRef(new Animated.Value(0)).current;
   const signInModalAnimation = useRef(new Animated.Value(0)).current; // Animation for sign in modal
 
+  const getTimeElapsed = (timeString) => {
+    // Parse the time string into a Date object
+    const incidentTime = new Date(timeString);
+    const now = new Date();
+    
+    // Calculate time difference in milliseconds
+    const timeDiff = now - incidentTime;
+    
+    // Convert to minutes
+    const minutesElapsed = Math.floor(timeDiff / (1000 * 60));
+    
+    if (minutesElapsed < 60) {
+      // For time indicator, return short form
+      return `${minutesElapsed}m`;
+    } else if (minutesElapsed < 24 * 60) {
+      // For hours, return short form
+      return `${Math.floor(minutesElapsed / 60)}h`;
+    } else {
+      // For days, return short form
+      return `${Math.floor(minutesElapsed / (60 * 24))}d`;
+    }
+  };
+
+  // Add a new function for more detailed time descriptions
+  const getDetailedTimeElapsed = (timeString) => {
+    // Parse the time string into a Date object
+    const incidentTime = new Date(timeString);
+    const now = new Date();
+    
+    // Calculate time difference in milliseconds
+    const timeDiff = now - incidentTime;
+    
+    // Convert to minutes
+    const minutesElapsed = Math.floor(timeDiff / (1000 * 60));
+    const hoursElapsed = Math.floor(minutesElapsed / 60);
+    const daysElapsed = Math.floor(hoursElapsed / 24);
+    
+    if (minutesElapsed < 60) {
+      return `${minutesElapsed} minute${minutesElapsed !== 1 ? 's' : ''}`;
+    } else if (hoursElapsed < 24) {
+      return `${hoursElapsed} hour${hoursElapsed !== 1 ? 's' : ''}`;
+    } else {
+      return `${daysElapsed} day${daysElapsed !== 1 ? 's' : ''}`;
+    }
+  };
+
+  const getTimeIndicatorColor = (timeString) => {
+    const incidentTime = new Date(timeString);
+    const now = new Date();
+    const timeDiff = now - incidentTime;
+    const minutesElapsed = Math.floor(timeDiff / (1000 * 60));
+    
+    if (minutesElapsed < 60) {
+      return '#ff4d4d'; // Red for very recent (< 1 hour)
+    } else if (minutesElapsed < 180) {
+      return '#ff9800'; // Orange for somewhat recent (1-3 hours)
+    } else if (minutesElapsed < 24 * 60) {
+      return '#ffc107'; // Amber for today (4-24 hours)
+    } else {
+      return '#8d8d8d'; // Gray for older incidents (> 24 hours)
+    }
+  };
+
   // Effect to toggle traffic when tab changes
   useEffect(() => {
-    // Show traffic layer when traffic tab is active
+    // Shows traffic layer when traffic tab is active
     setShowTraffic(activeTab === 'traffic');
   }, [activeTab]);
 
@@ -859,36 +920,45 @@ export default function HomeScreen() {
       case 'crime':
   return (
           <>
-        {crimeData.map((crime) => (
-          <Marker
-            key={crime.id}
-            coordinate={{
-              latitude: crime.latitude,
-              longitude: crime.longitude,
-            }}
+        {crimeData.map((crime, index) => {
+          // Calculate description based on time string
+          const timeDescription = `Reported ${getDetailedTimeElapsed(crime.time)} ago`;
+          
+          return (
+            <Marker
+              key={crime.id}
+              coordinate={{
+                latitude: crime.latitude,
+                longitude: crime.longitude,
+              }}
+              tracksViewChanges={false}
+              onPress={() => handleMarkerPress(crime)}
+            >
+              <TouchableOpacity 
+                onPress={() => handleMarkerPress(crime)}
+                style={styles.markerContainer}
               >
-                {/* Custom Emoji Marker */}
-                <View style={[
-                  styles.emojiMarker, 
-                  { backgroundColor: darkMode ? 'rgba(30, 30, 30, 0.85)' : 'rgba(255, 255, 255, 0.85)' }
-                ]}>
+                <View style={[styles.emojiMarker, { backgroundColor: darkMode ? 'rgba(30, 30, 30, 0.85)' : 'rgba(255, 255, 255, 0.85)' }]}>
                   <Text style={styles.emojiText}>{crime.emoji}</Text>
+                  {getTimeIndicator(crime.time)}
                 </View>
-                
-            <Callout tooltip>
-                  <View style={[styles.calloutStyle, { backgroundColor: theme.calloutBackground, borderColor: theme.calloutBorder }]}>
-                    <View style={styles.calloutHeader}>
-                      <Text style={styles.emoji}>{crime.emoji}</Text>
-                      <Text style={[styles.title, { color: theme.calloutTitle }]}>{crime.title}</Text>
-                    </View>
-                    <View style={[styles.divider, { backgroundColor: theme.dividerColor }]} />
-                    <Text style={[styles.description, { color: theme.primaryText }]}>{crime.description}</Text>
-                    <Text style={[styles.time, { color: theme.secondaryText }]}>Time: {crime.time}</Text>
-                    <Text style={[styles.details, { color: theme.primaryText }]}>{crime.details}</Text>
-              </View>
-            </Callout>
-          </Marker>
-        ))}
+              </TouchableOpacity>
+              
+              <Callout tooltip>
+                <View style={[styles.calloutStyle, { backgroundColor: theme.calloutBackground, borderColor: theme.calloutBorder }]}>
+                  <View style={styles.calloutHeader}>
+                    <Text style={styles.emoji}>{crime.emoji}</Text>
+                    <Text style={[styles.title, { color: theme.calloutTitle }]}>{crime.title}</Text>
+                  </View>
+                  <View style={[styles.divider, { backgroundColor: theme.dividerColor }]} />
+                  <Text style={[styles.description, { color: theme.primaryText }]}>{timeDescription}</Text>
+                  <Text style={[styles.time, { color: theme.secondaryText }]}>Time: {crime.time}</Text>
+                  <Text style={[styles.details, { color: theme.primaryText }]}>{crime.details}</Text>
+                </View>
+              </Callout>
+            </Marker>
+          );
+        })}
           </>
         );
       case 'traffic':
@@ -920,20 +990,25 @@ export default function HomeScreen() {
             style={styles.reportsList}
             contentContainerStyle={styles.reportsListContent}
           >
-            {reportsData.map((report) => (
-              <View key={report.id} style={[styles.reportCard, { backgroundColor: theme.cardBackground }]}>
-                <Text style={[styles.reportTitle, { color: theme.primaryText }]}>{report.title}</Text>
-                <Text style={[styles.reportLocation, { color: theme.secondaryText }]}>
-                  <Ionicons name="location" size={16} color={theme.secondaryText} /> {report.location}
-                </Text>
-                <Text style={[styles.reportTime, { color: theme.secondaryText }]}>
-                  <Ionicons name="time" size={16} color={theme.secondaryText} /> {report.time}
-                </Text>
-                <Text style={[styles.reportDescription, { color: theme.primaryText }]}>{report.description}</Text>
-                <Text style={[styles.reportedBy, { color: theme.tertiaryText }]}>Reported by: {report.reportedBy}</Text>
-              </View>
-            ))}
-            {/* Add extra padding at the bottom for better scrolling */}
+            {reportsData.map((report) => {
+              // Calculate time description based on time string
+              const timeDescription = `Reported ${getDetailedTimeElapsed(report.time)} ago`;
+              
+              return (
+                <View key={report.id} style={[styles.reportCard, { backgroundColor: theme.cardBackground }]}>
+                  <Text style={[styles.reportTitle, { color: theme.primaryText }]}>{report.title}</Text>
+                  <Text style={[styles.reportLocation, { color: theme.secondaryText }]}>
+                    <Ionicons name="location" size={16} color={theme.secondaryText} /> {report.location}
+                  </Text>
+                  <Text style={[styles.reportTime, { color: theme.secondaryText }]}>
+                    <Ionicons name="time" size={16} color={theme.secondaryText} /> {timeDescription}
+                  </Text>
+                  <Text style={[styles.reportDescription, { color: theme.primaryText }]}>{report.description}</Text>
+                  <Text style={[styles.reportedBy, { color: theme.tertiaryText }]}>Reported by: {report.reportedBy}</Text>
+                </View>
+              );
+            })}
+            {/* Extra padding at the bottom */}
             <View style={styles.reportsBottomPadding} />
           </ScrollView>
         </SafeAreaView>
@@ -943,7 +1018,6 @@ export default function HomeScreen() {
 
   // Render settings panel
   const renderSettings = () => {
-    // Calculate animated properties
     const toggleTranslateX = toggleAnimation.interpolate({
       inputRange: [0, 1],
       outputRange: [0, 22]
@@ -1600,6 +1674,24 @@ export default function HomeScreen() {
     );
   };
 
+  const getTimeIndicator = (time) => {
+    const timeIndicatorColor = getTimeIndicatorColor(time);
+    return (
+      <View style={[
+        styles.timeIndicator,
+        { backgroundColor: timeIndicatorColor }
+      ]}>
+        <Text style={styles.timeIndicatorText}>
+          {getTimeElapsed(time)}
+        </Text>
+      </View>
+    );
+  };
+
+  const handleMarkerPress = (crime) => {
+    console.log('Marker pressed:', crime.title);
+  };
+
   return (
     <View style={[styles.container, { backgroundColor: theme.backgroundColor }]}>
       {activeTab !== 'reports' ? (
@@ -2013,22 +2105,27 @@ const styles = StyleSheet.create({
   },
   // Emoji Marker Styles
   emojiMarker: {
-    width: 36,
-    height: 36,
-    borderRadius: 18,
+    width: 40,
+    height: 40,
+    borderRadius: 20,
     backgroundColor: 'rgba(255, 255, 255, 0.9)',
     justifyContent: 'center',
     alignItems: 'center',
     borderWidth: 2,
     borderColor: '#ff4d4d',
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
+    overflow: 'visible', // Allow children to overflow outside the container
+    zIndex: 1,
+  },
+  // Add a new style for the touchable area
+  markerTouchableArea: {
+    position: 'absolute',
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    backgroundColor: 'transparent',
+    top: -10,
+    left: -10,
+    zIndex: 0,
   },
   emojiText: {
     fontSize: 18,
@@ -2321,5 +2418,35 @@ const styles = StyleSheet.create({
   forgotPasswordText: {
     fontSize: 14,
     textDecorationLine: 'underline',
+  },
+  // Time Indicator Styles
+  timeIndicator: {
+    position: 'absolute',
+    top: -10,
+    right: -10,
+    backgroundColor: '#ff4d4d',
+    borderRadius: 10,
+    paddingHorizontal: 4,
+    paddingVertical: 2,
+    minWidth: 22,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: 1.5,
+    borderColor: 'white',
+    zIndex: 100,
+  },
+  timeIndicatorText: {
+    fontSize: 10,
+    fontWeight: 'bold',
+    color: 'white',
+    textAlign: 'center',
+  },
+  markerContainer: {
+    position: 'relative',
+    width: 60,
+    height: 60,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 0,
   },
 });
