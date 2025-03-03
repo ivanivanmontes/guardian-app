@@ -8,7 +8,7 @@ import getDetailedTimeElapsed from '../utils/timeUtils';
 import getThemeStyles from '../utils/themeUtils';
 
 // Render settings panel
-const renderSettings = (toggleAnimation, toggleDarkMode, darkMode) => {
+const renderSettings = (toggleAnimation, toggleDarkMode, darkMode, setShowAbout) => {
     const toggleTranslateX = toggleAnimation.interpolate({
       inputRange: [0, 1],
       outputRange: [0, 22]
