@@ -1,14 +1,10 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Switch, Platform, Animated } from 'react-native';
-import { Ionicons, MaterialIcons, FontAwesome5 } from '@expo/vector-icons';
+import React from 'react';
+import { View, Text, TouchableOpacity, Animated } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import styles from '../styles';
 
 // Render about modal
-const renderAboutModal = () => {
-    const aboutModalAnimation = useRef(new Animated.Value(0)).current;
-    const [showAbout, setShowAbout] = useState(false);
-    const darkMode = false;
-
+const renderAboutModal = (showAbout, setShowAbout, aboutModalAnimation, darkMode) => {
     const modalScale = aboutModalAnimation.interpolate({
       inputRange: [0, 1],
       outputRange: [0.8, 1]
@@ -38,7 +34,7 @@ const renderAboutModal = () => {
           ]}
         >
           <View style={styles.aboutHeader}>
-            <Text style={[styles.aboutTitle, { color: darkMode ? '#fff' : '#000' }]}>About</Text>
+            <Text style={[styles.aboutTitle, { color: darkMode ? '#fff' : '#000' }]}>About Guardian</Text>
             <TouchableOpacity onPress={() => setShowAbout(false)}>
               <Ionicons name="close" size={24} color={darkMode ? '#fff' : '#000'} />
             </TouchableOpacity>
@@ -46,26 +42,14 @@ const renderAboutModal = () => {
           
           <View style={styles.aboutContent}>
             <Ionicons name="shield-checkmark" size={60} color="#FFC107" style={styles.aboutIcon} />
-            
-            <Text style={[styles.aboutAppName, { color: darkMode ? '#fff' : '#000' }]}>
-              Guardian iOS App
-            </Text>
-            
-            <Text style={[styles.aboutVersion, { color: darkMode ? '#bbb' : '#555' }]}>
-              Version 0.4 (20620.2.25.11)
-            </Text>
-            
-            <Text style={[styles.aboutCopyright, { color: darkMode ? '#aaa' : '#666' }]}>
-              Copyright © 2025 Guardian Inc.
-            </Text>
-            
-            <Text style={[styles.aboutRights, { color: darkMode ? '#aaa' : '#666' }]}>
-              All rights reserved.
-            </Text>
+            <Text style={[styles.aboutAppName, { color: darkMode ? '#fff' : '#000' }]}>Guardian iOS App</Text>
+            <Text style={[styles.aboutVersion, { color: darkMode ? '#aaa' : '#666' }]}>Version 0.5 (20620.3.03.11)</Text>
+            <Text style={[styles.aboutCopyright, { color: darkMode ? '#fff' : '#000' }]}>Copyright © 2025 Guardian Inc</Text>
+            <Text style={[styles.aboutRights, { color: darkMode ? '#aaa' : '#666' }]}>All rights reserved</Text>
           </View>
         </Animated.View>
       </Animated.View>
     );
-  };
+};
 
 export default renderAboutModal;

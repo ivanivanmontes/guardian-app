@@ -1065,8 +1065,8 @@ export default function HomeScreen() {
         </View>
       )}
 
-      {showSettings && renderSettings(toggleAnimation, toggleDarkMode, darkMode, setShowAbout)}
-      {renderAboutModal()}
+      {showSettings && renderSettings(toggleAnimation, toggleDarkMode, darkMode, setShowAbout, setShowSignIn, setShowSettings, setShowNotificationPreferences, setShowMapPreferences)}
+      {renderAboutModal(showAbout, setShowAbout, aboutModalAnimation, darkMode)}
       {renderMapPreferencesModal()}
       {renderNotificationPreferencesModal()}
       {renderSignInModal()}
