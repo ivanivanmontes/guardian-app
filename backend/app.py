@@ -1,3 +1,4 @@
+import datetime
 from flask import Flask, request, jsonify
 from flask_bcrypt import Bcrypt
 from flask_cors import CORS
@@ -8,7 +9,7 @@ CORS(app)
 bcrypt = Bcrypt(app)
 
 # MongoDB connection (change to Atlas URI if using cloud)
-client = MongoClient ("mongodb+srv://ivanmontes604:<db_password>@cluster0.mn7gll5.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
+client = MongoClient ("mongodb+srv://ivanmontes604:WaAnuHGwTHMdg8Rp@cluster0.mn7gll5.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
 db = client["myapp"]
 users = db["users"]
 
