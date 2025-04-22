@@ -11,7 +11,7 @@ If you have completed all the installation steps below, the development server w
 
 - Run the app on the iOS simulator:
   ```bash
-  npm run ios
+  make
   ```
 
 ## Installation
@@ -42,6 +42,10 @@ If you haven't installed Xcode, download it from the Mac App Store to get the iO
   ```
 
 - **Run the app on the iOS simulator**:
+  ```bash
+  make
+  ```
+  or
   ```bash
   npm run ios
   ```
