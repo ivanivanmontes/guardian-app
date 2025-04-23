@@ -4,6 +4,7 @@ import MapView, { Marker, Callout, PROVIDER_GOOGLE } from 'react-native-maps';
 import { Ionicons, MaterialIcons, FontAwesome5 } from '@expo/vector-icons';
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { Button } from 'react-native';
 import {crimeData, trafficData, reportsData } from "./mockData";
 import renderReports from './views/renderReports';
 import renderSettings from './views/renderSettings';
@@ -1011,6 +1012,20 @@ export default function HomeScreen() {
     console.log('Marker pressed:', crime.title);
   };
 
+  const [serverMessage, setServerMessage] = useState('');
+
+  const testServerCall = async () => {
+    try {
+      const response = await fetch('http://127.0.0.1:5000/test-db');
+      const data = await response.json();
+      setServerMessage(data.message);
+      console.log(data.message)
+    } catch (error) {
+      setServerMessage('Failed to reach server 😢');
+      console.error(error);
+    }
+  };
+
   return (
     <View style={[styles.container, { backgroundColor: theme.backgroundColor }]}>
       {activeTab !== 'reports' ? (
@@ -1070,6 +1085,13 @@ export default function HomeScreen() {
       {renderMapPreferencesModal()}
       {renderNotificationPreferencesModal()}
       {renderSignInModal()}
+
+
+      {/* TODO CHANGE THIS */}
+      <View style={styles.container}>
+      <Button title="Test Server" onPress={testServerCall} />
+      <Text style={styles.message}>{serverMessage}</Text>
+      </View>
 
       {/* Bottom Menu Bar */}
       <View style={[styles.bottomMenu, { 

@@ -54,18 +54,8 @@ def test_db():
 
 @app.route('/test-server', methods=['GET'])
 def test_server():
-    try:
-        return jsonify({
-            'status': 'success',
-            'message': 'Server is running correctly!',
-            'timestamp': str(datetime.datetime.now())
-        }), 200
-    except Exception as e:
-        return jsonify({
-            'status': 'error',
-            'message': 'Server error occurred',
-            'details': str(e)
-        }), 500
+    return jsonify({"message": "Hello from Flask!"}), 200
+
 
 
 # Run server
