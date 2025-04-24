@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Switch, Platform, Animated } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Switch, Platform, Animated, TextInput } from 'react-native';
 import MapView, { Marker, Callout, PROVIDER_GOOGLE } from 'react-native-maps';
 import { Ionicons, MaterialIcons, FontAwesome5 } from '@expo/vector-icons';
 import { StatusBar } from 'expo-status-bar';
@@ -249,6 +249,11 @@ export default function HomeScreen() {
   const [showNotificationPreferences, setShowNotificationPreferences] = useState(false);
   const [notificationRadius, setNotificationRadius] = useState(5);
   const [showSignIn, setShowSignIn] = useState(false); // State for sign in modal
+  const [showAddReport, setShowAddReport] = useState(false); // State for add report modal
+  const [reportTitle, setReportTitle] = useState('');
+  const [reportDescription, setReportDescription] = useState('');
+  const [reportAddress, setReportAddress] = useState('');
+  const [reportTag, setReportTag] = useState('crime'); // Default tag
   
   // Animation values
   const toggleAnimation = useRef(new Animated.Value(0)).current;
@@ -256,6 +261,7 @@ export default function HomeScreen() {
   const mapPreferencesAnimation = useRef(new Animated.Value(0)).current;
   const notificationPreferencesAnimation = useRef(new Animated.Value(0)).current;
   const signInModalAnimation = useRef(new Animated.Value(0)).current;
+  const addReportModalAnimation = useRef(new Animated.Value(0)).current;
 
   const getTimeElapsed = (timeString) => {
     // Parse the time string into a Date object
@@ -409,6 +415,30 @@ export default function HomeScreen() {
       }).start();
     }
   }, [showSignIn]);
+
+  // Effect to animate add report modal
+  useEffect(() => {
+    if (showAddReport) {
+      Animated.spring(addReportModalAnimation, {
+        toValue: 1,
+        useNativeDriver: true,
+        friction: 8,
+        tension: 40,
+        velocity: 3
+      }).start();
+    } else {
+      Animated.timing(addReportModalAnimation, {
+        toValue: 0,
+        duration: 200,
+        useNativeDriver: true
+      }).start();
+      // Reset form fields when closing the modal
+      setReportTitle('');
+      setReportDescription('');
+      setReportAddress('');
+      setReportTag('crime');
+    }
+  }, [showAddReport]);
 
   // Toggle dark mode
   const toggleDarkMode = () => {
@@ -1032,6 +1062,208 @@ export default function HomeScreen() {
     }
   };
 
+  // Function to handle report creation
+  const handleCreateReport = () => {
+    // Validate form inputs
+    if (!reportTitle.trim()) {
+      alert('Please enter a title for the report');
+      return;
+    }
+    if (!reportDescription.trim()) {
+      alert('Please enter a description for the report');
+      return;
+    }
+    if (!reportAddress.trim()) {
+      alert('Please enter an address for the report');
+      return;
+    }
+    
+    // Here you would typically send the report to your backend
+    console.log('Creating report:', {
+      title: reportTitle,
+      description: reportDescription,
+      address: reportAddress,
+      tag: reportTag,
+      time: new Date().toISOString(),
+    });
+    
+    // Close the modal
+    setShowAddReport(false);
+    
+    // Show success message
+    alert('Report submitted successfully!');
+  };
+  
+  // Render add report modal
+  const renderAddReportModal = () => {
+    const modalScale = addReportModalAnimation.interpolate({
+      inputRange: [0, 1],
+      outputRange: [0.8, 1]
+    });
+    
+    const modalOpacity = addReportModalAnimation.interpolate({
+      inputRange: [0, 1],
+      outputRange: [0, 1]
+    });
+
+    return (
+      <Animated.View 
+        style={[
+          styles.modalOverlay,
+          { opacity: addReportModalAnimation }
+        ]}
+        pointerEvents={showAddReport ? 'auto' : 'none'}
+      >
+        <Animated.View 
+          style={[
+            styles.aboutModal, 
+            styles.addReportModal,
+            { 
+              backgroundColor: darkMode ? '#222' : '#fff',
+              transform: [{ scale: modalScale }],
+              opacity: modalOpacity
+            }
+          ]}
+        >
+          <View style={styles.aboutHeader}>
+            <Text style={[styles.aboutTitle, { color: darkMode ? '#fff' : '#000' }]}>Create New Report</Text>
+            <TouchableOpacity onPress={() => setShowAddReport(false)}>
+              <Ionicons name="close" size={24} color={darkMode ? '#fff' : '#000'} />
+            </TouchableOpacity>
+          </View>
+          
+          <ScrollView style={styles.addReportContent}>
+            <View style={styles.inputContainer}>
+              <Text style={[styles.inputLabel, { color: darkMode ? '#fff' : '#000' }]}>
+                Title <Text style={{ color: '#FF3B30' }}>*</Text>
+              </Text>
+              <TextInput
+                style={[
+                  styles.textInput,
+                  { 
+                    backgroundColor: darkMode ? '#333' : '#f5f5f5',
+                    color: darkMode ? '#fff' : '#000',
+                    borderColor: darkMode ? '#444' : '#ddd'
+                  }
+                ]}
+                placeholder="Enter report title"
+                placeholderTextColor={darkMode ? '#aaa' : '#999'}
+                value={reportTitle}
+                onChangeText={setReportTitle}
+              />
+            </View>
+            
+            <View style={styles.inputContainer}>
+              <Text style={[styles.inputLabel, { color: darkMode ? '#fff' : '#000' }]}>
+                Address <Text style={{ color: '#FF3B30' }}>*</Text>
+              </Text>
+              <TextInput
+                style={[
+                  styles.textInput,
+                  { 
+                    backgroundColor: darkMode ? '#333' : '#f5f5f5',
+                    color: darkMode ? '#fff' : '#000',
+                    borderColor: darkMode ? '#444' : '#ddd'
+                  }
+                ]}
+                placeholder="Enter location address"
+                placeholderTextColor={darkMode ? '#aaa' : '#999'}
+                value={reportAddress}
+                onChangeText={setReportAddress}
+              />
+            </View>
+            
+            <View style={styles.inputContainer}>
+              <Text style={[styles.inputLabel, { color: darkMode ? '#fff' : '#000' }]}>
+                Description <Text style={{ color: '#FF3B30' }}>*</Text>
+              </Text>
+              <TextInput
+                style={[
+                  styles.textInput,
+                  styles.textAreaInput,
+                  { 
+                    backgroundColor: darkMode ? '#333' : '#f5f5f5',
+                    color: darkMode ? '#fff' : '#000',
+                    borderColor: darkMode ? '#444' : '#ddd'
+                  }
+                ]}
+                placeholder="Enter report description"
+                placeholderTextColor={darkMode ? '#aaa' : '#999'}
+                multiline={true}
+                numberOfLines={4}
+                textAlignVertical="top"
+                value={reportDescription}
+                onChangeText={setReportDescription}
+              />
+            </View>
+            
+            <View style={styles.inputContainer}>
+              <Text style={[styles.inputLabel, { color: darkMode ? '#fff' : '#000' }]}>
+                Tag <Text style={{ color: '#FF3B30' }}>*</Text>
+              </Text>
+              <View style={styles.tagContainer}>
+                <TouchableOpacity 
+                  style={[
+                    styles.tagOption,
+                    reportTag === 'crime' && styles.tagOptionSelected,
+                    { borderColor: darkMode ? '#444' : '#ddd', flex: 0.8 }
+                  ]}
+                  onPress={() => setReportTag('crime')}
+                >
+                  <Ionicons 
+                    name="warning" 
+                    size={20} 
+                    color={reportTag === 'crime' ? '#FFC107' : (darkMode ? '#fff' : '#000')}
+                  />
+                  <Text 
+                    style={[
+                      styles.tagText,
+                      { color: reportTag === 'crime' ? '#FFC107' : (darkMode ? '#fff' : '#000') }
+                    ]}
+                  >
+                    Crime
+                  </Text>
+                </TouchableOpacity>
+                
+                <TouchableOpacity 
+                  style={[
+                    styles.tagOption,
+                    reportTag === 'infrastructure' && styles.tagOptionSelected,
+                    { borderColor: darkMode ? '#444' : '#ddd', flex: 1.2 }
+                  ]}
+                  onPress={() => setReportTag('infrastructure')}
+                >
+                  <Ionicons 
+                    name="construct" 
+                    size={20} 
+                    color={reportTag === 'infrastructure' ? '#FFC107' : (darkMode ? '#fff' : '#000')}
+                  />
+                  <Text 
+                    style={[
+                      styles.tagText,
+                      { color: reportTag === 'infrastructure' ? '#FFC107' : (darkMode ? '#fff' : '#000') }
+                    ]}
+                  >
+                    Infrastructure
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </ScrollView>
+          
+          <View style={styles.modalFooter}>
+            <TouchableOpacity 
+              style={styles.createReportButton}
+              onPress={handleCreateReport}
+            >
+              <Text style={styles.createReportButtonText}>Create Report</Text>
+            </TouchableOpacity>
+          </View>
+        </Animated.View>
+      </Animated.View>
+    );
+  };
+
   return (
     <View style={[styles.container, { backgroundColor: theme.backgroundColor }]}>
       {activeTab !== 'reports' ? (
@@ -1053,7 +1285,7 @@ export default function HomeScreen() {
           {renderMapContent()}
       </MapView>
       ) : (
-        renderReports(darkMode)
+        renderReports(darkMode, setShowAddReport)
       )}
 
       {/* Traffic Info Panel - shows when traffic tab is active */}
@@ -1091,13 +1323,14 @@ export default function HomeScreen() {
       {renderMapPreferencesModal()}
       {renderNotificationPreferencesModal()}
       {renderSignInModal()}
+      {renderAddReportModal()}
 
 
-      {/* TODO CHANGE THIS */}
+      {/* TODO CHANGE THIS
       <View style={styles.container}>
       <Button title="Test Server" onPress={testServerCall} />
       <Text style={styles.message}>{serverMessage}</Text>
-      </View>
+      </View> */}
 
       {/* Bottom Menu Bar */}
       <View style={[styles.bottomMenu, { 

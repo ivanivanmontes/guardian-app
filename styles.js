@@ -606,6 +606,84 @@ const styles = StyleSheet.create({
       alignItems: 'center',
       padding: 0,
     },
+    // Add Report Modal styles
+    addReportModal: {
+      maxHeight: '80%',
+      width: '90%',
+    },
+    addReportContent: {
+      paddingHorizontal: 20,
+      paddingVertical: 10,
+    },
+    modalFooter: {
+      flexDirection: 'row',
+      justifyContent: 'flex-end',
+      padding: 15,
+      borderTopWidth: 1,
+      borderTopColor: '#ddd',
+    },
+    textInput: {
+      height: 50,
+      borderWidth: 1,
+      borderRadius: 8,
+      paddingHorizontal: 15,
+      marginBottom: 5,
+      fontSize: 16,
+    },
+    textAreaInput: {
+      height: 120,
+      paddingTop: 12,
+      textAlignVertical: 'top',
+    },
+    tagContainer: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      marginTop: 5,
+      marginHorizontal: -5,
+      marginBottom: 5,
+    },
+    tagOption: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'center',
+      borderWidth: 1,
+      borderRadius: 16,
+      padding: 12,
+      marginHorizontal: 5,
+      position: 'relative',
+    },
+    tagOptionSelected: {
+      borderColor: '#FFC107',
+      borderWidth: 2,
+    },
+    tagText: {
+      marginLeft: 8,
+      fontSize: 14,
+      fontWeight: '500',
+    },
+    tagCheckmark: {
+      position: 'absolute',
+      top: 5,
+      right: 5,
+    },
+    createReportButton: {
+      backgroundColor: '#FFC107',
+      borderRadius: 8,
+      paddingVertical: 12,
+      paddingHorizontal: 20,
+      alignItems: 'center',
+      justifyContent: 'center',
+      shadowColor: '#000',
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.2,
+      shadowRadius: 3,
+      elevation: 2,
+    },
+    createReportButtonText: {
+      color: '#000',
+      fontSize: 16,
+      fontWeight: '600',
+    },
   });
 
   export default styles;
