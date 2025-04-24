@@ -68,7 +68,8 @@ def add_report():
         "title": "Streetlight out",
         "description": "The streetlight near my apartment is not working.",
         "latitude": 40.7128,
-        "longitude": -74.0060
+        "longitude": -74.0060,
+        "tag": "crime"
     }
     """
     data = request.get_json()
@@ -81,7 +82,8 @@ def add_report():
         "title": data["title"],
         "latitude": data["latitude"],
         "longitude": data["longitude"],
-        "time": report_time
+        "time": report_time,
+        "tag": data["tag"]
     })
 
     if existing_report:
@@ -93,7 +95,8 @@ def add_report():
         "description": data.get("description", ""),  # Optional fallback
         "latitude": data["latitude"],
         "longitude": data["longitude"],
-        "time": report_time
+        "time": report_time,
+        "tag": data['tag']
     }
 
     reports.insert_one(new_report)
