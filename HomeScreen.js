@@ -1092,13 +1092,6 @@ export default function HomeScreen() {
       {renderNotificationPreferencesModal()}
       {renderSignInModal()}
 
-
-      {/* TODO CHANGE THIS */}
-      <View style={styles.container}>
-      <Button title="Test Server" onPress={testServerCall} />
-      <Text style={styles.message}>{serverMessage}</Text>
-      </View>
-
       {/* Bottom Menu Bar */}
       <View style={[styles.bottomMenu, { 
         backgroundColor: darkMode ? '#222' : '#000',
