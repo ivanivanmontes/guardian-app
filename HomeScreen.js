@@ -1016,13 +1016,19 @@ export default function HomeScreen() {
 
   const testServerCall = async () => {
     try {
-      const response = await fetch('http://127.0.0.1:5000/test-db');
+      const response = await fetch('http://127.0.0.1:5000/get-all-reports');
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
       const data = await response.json();
-      setServerMessage(data.message);
-      console.log(data.message)
+      console.log(data); // This will log the complete array of report objects
+      // Example of accessing the first report's title:
+      if (data.length > 0) {
+        console.log("First report title:", data[0].title);
+      }
     } catch (error) {
+      console.error("Fetch error:", error);
       setServerMessage('Failed to reach server 😢');
-      console.error(error);
     }
   };
 
