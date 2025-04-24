@@ -67,8 +67,8 @@ def add_report():
         "username": "user123",
         "title": "Streetlight out",
         "description": "The streetlight near my apartment is not working.",
-        "latitude": 40.7128,
-        "longitude": -74.0060
+        "address": "123 street",
+        "tag": "crime"
     }
     """
     data = request.get_json()
@@ -81,19 +81,21 @@ def add_report():
         "title": data["title"],
         "latitude": data["latitude"],
         "longitude": data["longitude"],
-        "time": report_time
+        "time": report_time,
+        "tag": data["tag"]
     })
 
     if existing_report:
         return jsonify({"error": "Report already exists"}), 400
 
     new_report = {
-        "username": data["username"],
         "title": data["title"],
-        "description": data.get("description", ""),  # Optional fallback
         "latitude": data["latitude"],
         "longitude": data["longitude"],
-        "time": report_time
+        "time": report_time,
+        "tag": data['tag'],
+        "description": data.get("description", ""),
+        "username": data["username"],
     }
 
     reports.insert_one(new_report)
