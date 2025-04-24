@@ -397,7 +397,7 @@ export default function HomeScreen() {
     }
   }, [showNotificationPreferences]);
 
-  // Effect to animate sign in modal
+  // Sign in modal Effect
   useEffect(() => {
     if (showSignIn) {
       Animated.spring(signInModalAnimation, {
@@ -416,7 +416,7 @@ export default function HomeScreen() {
     }
   }, [showSignIn]);
 
-  // Effect to animate add report modal
+  // Add Report modal Effect
   useEffect(() => {
     if (showAddReport) {
       Animated.spring(addReportModalAnimation, {
@@ -432,7 +432,7 @@ export default function HomeScreen() {
         duration: 200,
         useNativeDriver: true
       }).start();
-      // Reset form fields when closing the modal
+      // Reset form fields when closing Report Modal
       setReportTitle('');
       setReportDescription('');
       setReportAddress('');
@@ -1062,7 +1062,7 @@ export default function HomeScreen() {
     }
   };
 
-  // Function to handle report creation
+  // Handle Create Report
   const handleCreateReport = () => {
     // Validate form inputs
     if (!reportTitle.trim()) {
@@ -1078,7 +1078,7 @@ export default function HomeScreen() {
       return;
     }
     
-    // Here you would typically send the report to your backend
+    // Send report to server
     console.log('Creating report:', {
       title: reportTitle,
       description: reportDescription,
@@ -1089,8 +1089,6 @@ export default function HomeScreen() {
     
     // Close the modal
     setShowAddReport(false);
-    
-    // Show success message
     alert('Report submitted successfully!');
   };
   
@@ -1327,15 +1325,15 @@ export default function HomeScreen() {
 
       {/* Bottom Menu Bar */}
       <View style={[styles.bottomMenu, { 
-        backgroundColor: darkMode ? '#222' : '#000',
-        borderTopColor: darkMode ? '#444' : '#333'
+        backgroundColor: darkMode ? 'rgba(34, 34, 34, 0.85)' : 'rgba(255, 255, 255, 0.85)',
+        borderTopColor: darkMode ? '#444' : '#ddd'
       }]}>
         <TouchableOpacity 
           style={[
             styles.menuItem, 
             activeTab === 'crime' && [
               styles.activeMenuItem, 
-              { backgroundColor: darkMode ? '#333' : '#222' }
+              { backgroundColor: darkMode ? 'rgba(51, 51, 51, 0.8)' : 'rgba(240, 240, 240, 0.8)' }
             ]
           ]}
           onPress={() => {
@@ -1346,9 +1344,9 @@ export default function HomeScreen() {
           <Ionicons 
             name="warning" 
             size={24} 
-            color={activeTab === 'crime' ? "#FFC107" : "white"} 
+            color={activeTab === 'crime' ? "#FFC107" : darkMode ? "white" : "#333"} 
           />
-          <Text style={styles.menuText}>Crime Map</Text>
+          <Text style={[styles.menuText, { color: darkMode ? "white" : "#333" }]}>Crime Map</Text>
         </TouchableOpacity>
         
         <TouchableOpacity 
@@ -1356,7 +1354,7 @@ export default function HomeScreen() {
             styles.menuItem, 
             activeTab === 'traffic' && [
               styles.activeMenuItem, 
-              { backgroundColor: darkMode ? '#333' : '#222' }
+              { backgroundColor: darkMode ? 'rgba(51, 51, 51, 0.8)' : 'rgba(240, 240, 240, 0.8)' }
             ]
           ]}
           onPress={() => {
@@ -1367,9 +1365,9 @@ export default function HomeScreen() {
           <MaterialIcons 
             name="traffic" 
             size={24} 
-            color={activeTab === 'traffic' ? "#FFC107" : "white"} 
+            color={activeTab === 'traffic' ? "#FFC107" : darkMode ? "white" : "#333"} 
           />
-          <Text style={styles.menuText}>Traffic</Text>
+          <Text style={[styles.menuText, { color: darkMode ? "white" : "#333" }]}>Traffic</Text>
         </TouchableOpacity>
         
         <TouchableOpacity 
@@ -1377,7 +1375,7 @@ export default function HomeScreen() {
             styles.menuItem, 
             activeTab === 'reports' && [
               styles.activeMenuItem, 
-              { backgroundColor: darkMode ? '#333' : '#222' }
+              { backgroundColor: darkMode ? 'rgba(51, 51, 51, 0.8)' : 'rgba(240, 240, 240, 0.8)' }
             ]
           ]}
           onPress={() => {
@@ -1388,9 +1386,9 @@ export default function HomeScreen() {
           <FontAwesome5 
             name="clipboard-list" 
             size={24} 
-            color={activeTab === 'reports' ? "#FFC107" : "white"} 
+            color={activeTab === 'reports' ? "#FFC107" : darkMode ? "white" : "#333"} 
           />
-          <Text style={styles.menuText}>Reports</Text>
+          <Text style={[styles.menuText, { color: darkMode ? "white" : "#333" }]}>Reports</Text>
         </TouchableOpacity>
         
         <TouchableOpacity 
@@ -1398,7 +1396,7 @@ export default function HomeScreen() {
             styles.menuItem, 
             showSettings && [
               styles.activeMenuItem, 
-              { backgroundColor: darkMode ? '#333' : '#222' }
+              { backgroundColor: darkMode ? 'rgba(51, 51, 51, 0.8)' : 'rgba(240, 240, 240, 0.8)' }
             ]
           ]}
           onPress={() => setShowSettings(!showSettings)}
@@ -1406,9 +1404,9 @@ export default function HomeScreen() {
           <Ionicons 
             name="settings" 
             size={24} 
-            color={showSettings ? "#FFC107" : "white"} 
+            color={showSettings ? "#FFC107" : darkMode ? "white" : "#333"} 
           />
-          <Text style={styles.menuText}>Settings</Text>
+          <Text style={[styles.menuText, { color: darkMode ? "white" : "#333" }]}>Settings</Text>
         </TouchableOpacity>
       </View>
       
