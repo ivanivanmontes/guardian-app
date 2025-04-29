@@ -12,6 +12,7 @@ import styles from './styles';
 import getDetailedTimeElapsed from './utils/timeUtils';
 import getThemeStyles from './utils/themeUtils';
 import renderAboutModal from './modals/AboutModal';
+import axios from "axios";
 // Dark mode map style
 const darkMapStyle = [
   {
@@ -1063,7 +1064,8 @@ export default function HomeScreen() {
   };
 
   // Handle Create Report
-  const handleCreateReport = () => {
+  const handleCreateReport = async () => {
+
     // Validate form inputs
     if (!reportTitle.trim()) {
       alert('Please enter a title for the report');
@@ -1086,6 +1088,21 @@ export default function HomeScreen() {
       tag: reportTag,
       time: new Date().toISOString(),
     });
+
+    try { 
+      const response = await axios.post('http://127.0.0.1:5000/add-report', {
+        username: 'testuser',
+        title: reportTitle,
+        description: reportDescription,
+        address: reportAddress,
+        tag: reportTag
+      });
+      console.log('POST success:', response.data);
+    } catch(error) {
+      console.log("error idk")
+
+
+    }
     
     // Close the modal
     setShowAddReport(false);
