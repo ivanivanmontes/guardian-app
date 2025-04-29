@@ -79,23 +79,22 @@ def add_report():
     existing_report = reports.find_one({
         "username": data["username"],
         "title": data["title"],
-        "latitude": data["latitude"],
-        "longitude": data["longitude"],
-        "time": report_time,
-        "tag": data["tag"]
+        "description": data["description"],
+        "address": data["address"],
+        "tag": data["tag"],
+        "time": report_time
     })
 
     if existing_report:
         return jsonify({"error": "Report already exists"}), 400
 
     new_report = {
-        "title": data["title"],
-        "latitude": data["latitude"],
-        "longitude": data["longitude"],
-        "time": report_time,
-        "tag": data['tag'],
-        "description": data.get("description", ""),
         "username": data["username"],
+        "title": data["title"],
+        "description": data.get("description", ""),
+        "address": data["address"],
+        "tag": data['tag'],
+        "time": report_time,
     }
 
     reports.insert_one(new_report)
