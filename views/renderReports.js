@@ -7,7 +7,7 @@ import {crimeData, trafficData, reportsData } from "../mockData";
 import getDetailedTimeElapsed from '../utils/timeUtils';
 import getThemeStyles from '../utils/themeUtils';
 // Render reports screen
-const renderReports = (darkMode) => {
+const renderReports = (darkMode, setShowAddReport) => {
   const theme = getThemeStyles(darkMode);
   return (
     <View style={{flex: 1, backgroundColor: darkMode ? '#222' : '#fff'}}>
@@ -19,7 +19,7 @@ const renderReports = (darkMode) => {
           <Text style={[styles.reportsTitle, { color: darkMode ? '#fff' : '#000' }]}>Community Reports</Text>
           <TouchableOpacity 
             style={styles.addReportButton}
-            onPress={() => alert('Add Report feature will be implemented in the next update!')}
+            onPress={() => setShowAddReport(true)}
           >
             <Ionicons name="add-circle" size={24} color="#FFC107" />
             <Text style={styles.addReportText}>Add Report</Text>

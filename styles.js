@@ -62,29 +62,41 @@ const styles = StyleSheet.create({
     // Bottom Menu Styles
     bottomMenu: {
       flexDirection: 'row',
-      backgroundColor: '#000',
-      height: 70,
-      paddingBottom: 10,
       justifyContent: 'space-around',
       alignItems: 'center',
-      borderTopWidth: 1,
-      borderTopColor: '#333',
+      paddingVertical: 8,
+      paddingHorizontal: 10,
+      position: 'absolute',
+      bottom: 20,
+      left: 20,
+      right: 20,
+      borderRadius: 25,
+      elevation: 8,
+      shadowColor: "#000",
+      shadowOffset: {
+        width: 0,
+        height: 4,
+      },
+      shadowOpacity: 0.3,
+      shadowRadius: 4.65,
     },
     menuItem: {
+      flexDirection: 'column',
       alignItems: 'center',
       justifyContent: 'center',
-      flex: 1,
       paddingVertical: 8,
+      paddingHorizontal: 16,
+      borderRadius: 20,
     },
     activeMenuItem: {
-      borderTopWidth: 3,
-      borderTopColor: '#FFC107',
-      backgroundColor: '#222',
+      paddingVertical: 8,
+      paddingHorizontal: 16,
+      borderRadius: 20,
     },
     menuText: {
-      color: 'white',
       fontSize: 12,
       marginTop: 4,
+      fontWeight: '500',
     },
     // Reports Screen Styles
     reportsContainer: {
@@ -158,22 +170,11 @@ const styles = StyleSheet.create({
     // Settings Panel Styles
     settingsPanel: {
       position: 'absolute',
-      bottom: 70, // Above the bottom menu
-      left: 0,
-      right: 0,
-      backgroundColor: '#222',
-      borderTopLeftRadius: 20,
-      borderTopRightRadius: 20,
+      bottom: 100, // Position above the bottom menu
+      left: 20,
+      right: 20,
       padding: 20,
       paddingTop: 10,
-      shadowColor: "#000",
-      shadowOffset: {
-        width: 0,
-        height: -3,
-      },
-      shadowOpacity: 0.27,
-      shadowRadius: 4.65,
-      elevation: 6,
     },
     settingsHeader: {
       flexDirection: 'row',
@@ -182,10 +183,8 @@ const styles = StyleSheet.create({
       marginBottom: 20,
       paddingBottom: 10,
       borderBottomWidth: 1,
-      borderBottomColor: '#444',
     },
     settingsTitle: {
-      color: 'white',
       fontSize: 20,
       fontWeight: 'bold',
     },
@@ -198,10 +197,8 @@ const styles = StyleSheet.create({
       alignItems: 'center',
       paddingVertical: 12,
       borderBottomWidth: 1,
-      borderBottomColor: '#333',
     },
     settingLabel: {
-      color: 'white',
       fontSize: 16,
     },
     settingButton: {
@@ -209,10 +206,8 @@ const styles = StyleSheet.create({
       alignItems: 'center',
       paddingVertical: 14,
       borderBottomWidth: 1,
-      borderBottomColor: '#333',
     },
     settingButtonText: {
-      color: 'white',
       fontSize: 16,
       marginLeft: 10,
     },
@@ -605,6 +600,84 @@ const styles = StyleSheet.create({
       justifyContent: 'center',
       alignItems: 'center',
       padding: 0,
+    },
+    // Add Report Modal styles
+    addReportModal: {
+      maxHeight: '80%',
+      width: '90%',
+    },
+    addReportContent: {
+      paddingHorizontal: 20,
+      paddingVertical: 10,
+    },
+    modalFooter: {
+      flexDirection: 'row',
+      justifyContent: 'flex-end',
+      padding: 15,
+      borderTopWidth: 1,
+      borderTopColor: '#ddd',
+    },
+    textInput: {
+      height: 50,
+      borderWidth: 1,
+      borderRadius: 8,
+      paddingHorizontal: 15,
+      marginBottom: 5,
+      fontSize: 16,
+    },
+    textAreaInput: {
+      height: 120,
+      paddingTop: 12,
+      textAlignVertical: 'top',
+    },
+    tagContainer: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      marginTop: 5,
+      marginHorizontal: -5,
+      marginBottom: 5,
+    },
+    tagOption: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'center',
+      borderWidth: 1,
+      borderRadius: 16,
+      padding: 12,
+      marginHorizontal: 5,
+      position: 'relative',
+    },
+    tagOptionSelected: {
+      borderColor: '#FFC107',
+      borderWidth: 2,
+    },
+    tagText: {
+      marginLeft: 8,
+      fontSize: 14,
+      fontWeight: '500',
+    },
+    tagCheckmark: {
+      position: 'absolute',
+      top: 5,
+      right: 5,
+    },
+    createReportButton: {
+      backgroundColor: '#FFC107',
+      borderRadius: 8,
+      paddingVertical: 12,
+      paddingHorizontal: 20,
+      alignItems: 'center',
+      justifyContent: 'center',
+      shadowColor: '#000',
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.2,
+      shadowRadius: 3,
+      elevation: 2,
+    },
+    createReportButtonText: {
+      color: '#000',
+      fontSize: 16,
+      fontWeight: '600',
     },
   });
 

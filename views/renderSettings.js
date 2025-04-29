@@ -25,19 +25,35 @@ const renderSettings = (toggleAnimation, toggleDarkMode, darkMode, setShowAbout,
     });
 
     return (
-      <View style={[styles.settingsPanel, { backgroundColor: darkMode ? '#222' : '#333' }]}>
-        <View style={[styles.settingsHeader, { borderBottomColor: darkMode ? '#444' : '#555' }]}>
-          <Text style={styles.settingsTitle}>Settings</Text>
+      <View style={[
+        styles.settingsPanel, 
+        { 
+          backgroundColor: darkMode ? '#222' : '#fff',
+          borderRadius: 25,
+          shadowColor: "#000",
+          shadowOffset: {
+            width: 0,
+            height: 4,
+          },
+          shadowOpacity: 0.3,
+          shadowRadius: 4.65,
+          elevation: 8,
+          borderWidth: 1,
+          borderColor: darkMode ? '#444' : '#ddd',
+        }
+      ]}>
+        <View style={[styles.settingsHeader, { borderBottomColor: darkMode ? '#444' : '#ddd' }]}>
+          <Text style={[styles.settingsTitle, { color: darkMode ? '#fff' : '#000' }]}>Settings</Text>
           <TouchableOpacity 
             style={styles.closeButton}
             onPress={() => setShowSettings(false)}
           >
-            <Ionicons name="close" size={24} color="white" />
+            <Ionicons name="close" size={24} color={darkMode ? '#fff' : '#000'} />
           </TouchableOpacity>
         </View>
         
-        <View style={[styles.settingItem, { borderBottomColor: darkMode ? '#444' : '#555' }]}>
-          <Text style={styles.settingLabel}>Dark Mode</Text>
+        <View style={[styles.settingItem, { borderBottomColor: darkMode ? '#444' : '#ddd' }]}>
+          <Text style={[styles.settingLabel, { color: darkMode ? '#fff' : '#000' }]}>Dark Mode</Text>
           <TouchableOpacity 
             style={[styles.themeToggle]}
             activeOpacity={0.8}
@@ -65,35 +81,35 @@ const renderSettings = (toggleAnimation, toggleDarkMode, darkMode, setShowAbout,
         </View>
         
         <TouchableOpacity 
-          style={[styles.settingButton, { borderBottomColor: darkMode ? '#444' : '#555' }]}
+          style={[styles.settingButton, { borderBottomColor: darkMode ? '#444' : '#ddd' }]}
           onPress={() => setShowSignIn(true)}
         >
-          <Ionicons name="person-circle-outline" size={20} color="white" />
-          <Text style={styles.settingButtonText}>Sign In / Register</Text>
+          <Ionicons name="person-circle-outline" size={20} color={darkMode ? '#fff' : '#333'} />
+          <Text style={[styles.settingButtonText, { color: darkMode ? '#fff' : '#333' }]}>Sign In / Register</Text>
         </TouchableOpacity>
         
         <TouchableOpacity 
-          style={[styles.settingButton, { borderBottomColor: darkMode ? '#444' : '#555' }]}
+          style={[styles.settingButton, { borderBottomColor: darkMode ? '#444' : '#ddd' }]}
           onPress={() => setShowNotificationPreferences(true)}
         >
-          <Ionicons name="notifications-outline" size={20} color="white" />
-          <Text style={styles.settingButtonText}>Notification Preferences</Text>
+          <Ionicons name="notifications-outline" size={20} color={darkMode ? '#fff' : '#333'} />
+          <Text style={[styles.settingButtonText, { color: darkMode ? '#fff' : '#333' }]}>Notification Preferences</Text>
         </TouchableOpacity>
         
         <TouchableOpacity 
-          style={[styles.settingButton, { borderBottomColor: darkMode ? '#444' : '#555' }]}
+          style={[styles.settingButton, { borderBottomColor: darkMode ? '#444' : '#ddd' }]}
           onPress={() => setShowMapPreferences(true)}
         >
-          <Ionicons name="map-outline" size={20} color="white" />
-          <Text style={styles.settingButtonText}>Map Preferences</Text>
+          <Ionicons name="map-outline" size={20} color={darkMode ? '#fff' : '#333'} />
+          <Text style={[styles.settingButtonText, { color: darkMode ? '#fff' : '#333' }]}>Map Preferences</Text>
         </TouchableOpacity>
         
         <TouchableOpacity 
-          style={[styles.settingButton, { borderBottomColor: darkMode ? '#444' : '#555' }]}
+          style={[styles.settingButton, { borderBottomColor: darkMode ? '#444' : '#ddd' }]}
           onPress={() => setShowAbout(true)}
         >
-          <Ionicons name="information-circle-outline" size={20} color="white" />
-          <Text style={styles.settingButtonText}>About</Text>
+          <Ionicons name="information-circle-outline" size={20} color={darkMode ? '#fff' : '#333'} />
+          <Text style={[styles.settingButtonText, { color: darkMode ? '#fff' : '#333' }]}>About</Text>
         </TouchableOpacity>
       </View>
     );
