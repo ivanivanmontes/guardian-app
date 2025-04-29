@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Switch, Platform, Animated, TextInput } from 'react-native';
 import MapView, { Marker, Callout, PROVIDER_GOOGLE } from 'react-native-maps';
 import { Ionicons, MaterialIcons, FontAwesome5 } from '@expo/vector-icons';
@@ -13,6 +13,7 @@ import getDetailedTimeElapsed from './utils/timeUtils';
 import getThemeStyles from './utils/themeUtils';
 import renderAboutModal from './modals/AboutModal';
 import axios from "axios";
+import { useFocusEffect } from '@react-navigation/native';
 // Dark mode map style
 const darkMapStyle = [
   {
@@ -255,6 +256,8 @@ export default function HomeScreen() {
   const [reportDescription, setReportDescription] = useState('');
   const [reportAddress, setReportAddress] = useState('');
   const [reportTag, setReportTag] = useState('crime'); // Default tag
+  const [resData, setResData] = useState([]);
+
   
   // Animation values
   const toggleAnimation = useRef(new Animated.Value(0)).current;
@@ -463,6 +466,30 @@ export default function HomeScreen() {
     
     return baseStyle;
   };
+
+  const fetchReports = async () => {
+    try {
+      const response = await axios.get("http://127.0.0.1:5000/get-all-reports");
+      const formattedData = response.data.map((report, index) => ({
+        id: report._id?.$oid || index.toString(),
+        title: report.title,
+        description: report.description,
+        address: report.address,
+        username: report.username,
+        time: report.time?.$date,
+        tag: report.tag,
+      }));
+      setResData(formattedData);
+    } catch (error) {
+      console.error("Error fetching reports:", error);
+    }
+  };
+
+  useFocusEffect(
+    useCallback(() => {
+      fetchReports();
+    }, [])
+  );
 
   
   
@@ -1045,7 +1072,7 @@ export default function HomeScreen() {
 
   const [serverMessage, setServerMessage] = useState('');
 
-  const testServerCall = async () => {
+  const handleGetAllReports = async () => {
     try {
       const response = await fetch('http://127.0.0.1:5000/get-all-reports');
       if (!response.ok) {
@@ -1079,29 +1106,19 @@ export default function HomeScreen() {
       alert('Please enter an address for the report');
       return;
     }
-    
-    // Send report to server
-    console.log('Creating report:', {
-      title: reportTitle,
-      description: reportDescription,
-      address: reportAddress,
-      tag: reportTag,
-      time: new Date().toISOString(),
-    });
 
     try { 
       const response = await axios.post('http://127.0.0.1:5000/add-report', {
-        username: 'testuser',
+        username: 'testuser', //TODO: change this
         title: reportTitle,
         description: reportDescription,
         address: reportAddress,
         tag: reportTag
       });
       console.log('POST success:', response.data);
+      fetchReports();
     } catch(error) {
-      console.log("error idk")
-
-
+      console.log("error idk");
     }
     
     // Close the modal
@@ -1300,7 +1317,7 @@ export default function HomeScreen() {
           {renderMapContent()}
       </MapView>
       ) : (
-        renderReports(darkMode, setShowAddReport)
+        renderReports(darkMode, setShowAddReport, resData)
       )}
 
       {/* Traffic Info Panel - shows when traffic tab is active */}

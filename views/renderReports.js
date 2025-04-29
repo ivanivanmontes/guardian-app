@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Switch, Platform, Animated } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import styles from '../styles';
@@ -7,7 +7,7 @@ import {crimeData, trafficData, reportsData } from "../mockData";
 import getDetailedTimeElapsed from '../utils/timeUtils';
 import getThemeStyles from '../utils/themeUtils';
 // Render reports screen
-const renderReports = (darkMode, setShowAddReport) => {
+const renderReports = (darkMode, setShowAddReport, resData) => {
   const theme = getThemeStyles(darkMode);
   return (
     <View style={{flex: 1, backgroundColor: darkMode ? '#222' : '#fff'}}>
@@ -29,21 +29,19 @@ const renderReports = (darkMode, setShowAddReport) => {
           style={styles.reportsList}
           contentContainerStyle={styles.reportsListContent}
         >
-          {reportsData.map((report) => {
-            // Calculate time description based on time string
+          {resData.map((report) => {
             const timeDescription = `Reported ${getDetailedTimeElapsed(report.time)} ago`;
-            
             return (
               <View key={report.id} style={[styles.reportCard, { backgroundColor: theme.cardBackground }]}>
                 <Text style={[styles.reportTitle, { color: theme.primaryText }]}>{report.title}</Text>
                 <Text style={[styles.reportLocation, { color: theme.secondaryText }]}>
-                  <Ionicons name="location" size={16} color={theme.secondaryText} /> {report.location}
+                  <Ionicons name="location" size={16} color={theme.secondaryText} /> {report.address}
                 </Text>
                 <Text style={[styles.reportTime, { color: theme.secondaryText }]}>
                   <Ionicons name="time" size={16} color={theme.secondaryText} /> {timeDescription}
                 </Text>
                 <Text style={[styles.reportDescription, { color: theme.primaryText }]}>{report.description}</Text>
-                <Text style={[styles.reportedBy, { color: theme.tertiaryText }]}>Reported by: {report.reportedBy}</Text>
+                <Text style={[styles.reportedBy, { color: theme.tertiaryText }]}>Reported by: {report.username}</Text>
               </View>
             );
           })}
