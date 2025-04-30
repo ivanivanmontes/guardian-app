@@ -12,5 +12,5 @@ export default function App() {
             <HomeScreen></HomeScreen>
       </NavigationContainer>
     </CoordinateProvider>
-  )
+  );
 }

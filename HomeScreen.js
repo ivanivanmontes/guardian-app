@@ -1,9 +1,10 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Switch, Platform, Animated } from 'react-native';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Switch, Platform, Animated, TextInput } from 'react-native';
 import MapView, { Marker, Callout, PROVIDER_GOOGLE } from 'react-native-maps';
 import { Ionicons, MaterialIcons, FontAwesome5 } from '@expo/vector-icons';
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { Button } from 'react-native';
 import {crimeData, trafficData, reportsData } from "./mockData";
 import renderReports from './views/renderReports';
 import renderSettings from './views/renderSettings';
@@ -11,6 +12,8 @@ import styles from './styles';
 import getDetailedTimeElapsed from './utils/timeUtils';
 import getThemeStyles from './utils/themeUtils';
 import renderAboutModal from './modals/AboutModal';
+import axios from "axios";
+import { useFocusEffect } from '@react-navigation/native';
 // Dark mode map style
 const darkMapStyle = [
   {
@@ -248,6 +251,13 @@ export default function HomeScreen() {
   const [showNotificationPreferences, setShowNotificationPreferences] = useState(false);
   const [notificationRadius, setNotificationRadius] = useState(5);
   const [showSignIn, setShowSignIn] = useState(false); // State for sign in modal
+  const [showAddReport, setShowAddReport] = useState(false); // State for add report modal
+  const [reportTitle, setReportTitle] = useState('');
+  const [reportDescription, setReportDescription] = useState('');
+  const [reportAddress, setReportAddress] = useState('');
+  const [reportTag, setReportTag] = useState('crime'); // Default tag
+  const [resData, setResData] = useState([]);
+
   
   // Animation values
   const toggleAnimation = useRef(new Animated.Value(0)).current;
@@ -255,6 +265,7 @@ export default function HomeScreen() {
   const mapPreferencesAnimation = useRef(new Animated.Value(0)).current;
   const notificationPreferencesAnimation = useRef(new Animated.Value(0)).current;
   const signInModalAnimation = useRef(new Animated.Value(0)).current;
+  const addReportModalAnimation = useRef(new Animated.Value(0)).current;
 
   const getTimeElapsed = (timeString) => {
     // Parse the time string into a Date object
@@ -390,7 +401,7 @@ export default function HomeScreen() {
     }
   }, [showNotificationPreferences]);
 
-  // Effect to animate sign in modal
+  // Sign in modal Effect
   useEffect(() => {
     if (showSignIn) {
       Animated.spring(signInModalAnimation, {
@@ -408,6 +419,30 @@ export default function HomeScreen() {
       }).start();
     }
   }, [showSignIn]);
+
+  // Add Report modal Effect
+  useEffect(() => {
+    if (showAddReport) {
+      Animated.spring(addReportModalAnimation, {
+        toValue: 1,
+        useNativeDriver: true,
+        friction: 8,
+        tension: 40,
+        velocity: 3
+      }).start();
+    } else {
+      Animated.timing(addReportModalAnimation, {
+        toValue: 0,
+        duration: 200,
+        useNativeDriver: true
+      }).start();
+      // Reset form fields when closing Report Modal
+      setReportTitle('');
+      setReportDescription('');
+      setReportAddress('');
+      setReportTag('crime');
+    }
+  }, [showAddReport]);
 
   // Toggle dark mode
   const toggleDarkMode = () => {
@@ -431,6 +466,30 @@ export default function HomeScreen() {
     
     return baseStyle;
   };
+
+  const fetchReports = async () => {
+    try {
+      const response = await axios.get("http://127.0.0.1:5000/get-all-reports");
+      const formattedData = response.data.map((report, index) => ({
+        id: report._id?.$oid || index.toString(),
+        title: report.title,
+        description: report.description,
+        address: report.address,
+        username: report.username,
+        time: report.time?.$date,
+        tag: report.tag,
+      }));
+      setResData(formattedData);
+    } catch (error) {
+      console.error("Error fetching reports:", error);
+    }
+  };
+
+  useFocusEffect(
+    useCallback(() => {
+      fetchReports();
+    }, [])
+  );
 
   
   
@@ -1011,6 +1070,232 @@ export default function HomeScreen() {
     console.log('Marker pressed:', crime.title);
   };
 
+  const [serverMessage, setServerMessage] = useState('');
+
+  const handleGetAllReports = async () => {
+    try {
+      const response = await fetch('http://127.0.0.1:5000/get-all-reports');
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const data = await response.json();
+      console.log(data); // This will log the complete array of report objects
+      // Example of accessing the first report's title:
+      if (data.length > 0) {
+        console.log("First report title:", data[0].title);
+      }
+    } catch (error) {
+      console.error("Fetch error:", error);
+      setServerMessage('Failed to reach server 😢');
+    }
+  };
+
+  // Handle Create Report
+  const handleCreateReport = async () => {
+
+    // Validate form inputs
+    if (!reportTitle.trim()) {
+      alert('Please enter a title for the report');
+      return;
+    }
+    if (!reportDescription.trim()) {
+      alert('Please enter a description for the report');
+      return;
+    }
+    if (!reportAddress.trim()) {
+      alert('Please enter an address for the report');
+      return;
+    }
+
+    try { 
+      const response = await axios.post('http://127.0.0.1:5000/add-report', {
+        username: 'testuser', //TODO: change this
+        title: reportTitle,
+        description: reportDescription,
+        address: reportAddress,
+        tag: reportTag
+      });
+      console.log('POST success:', response.data);
+      fetchReports();
+    } catch(error) {
+      console.log("error idk");
+    }
+    
+    // Close the modal
+    setShowAddReport(false);
+    alert('Report submitted successfully!');
+  };
+  
+  // Render add report modal
+  const renderAddReportModal = () => {
+    const modalScale = addReportModalAnimation.interpolate({
+      inputRange: [0, 1],
+      outputRange: [0.8, 1]
+    });
+    
+    const modalOpacity = addReportModalAnimation.interpolate({
+      inputRange: [0, 1],
+      outputRange: [0, 1]
+    });
+
+    return (
+      <Animated.View 
+        style={[
+          styles.modalOverlay,
+          { opacity: addReportModalAnimation }
+        ]}
+        pointerEvents={showAddReport ? 'auto' : 'none'}
+      >
+        <Animated.View 
+          style={[
+            styles.aboutModal, 
+            styles.addReportModal,
+            { 
+              backgroundColor: darkMode ? '#222' : '#fff',
+              transform: [{ scale: modalScale }],
+              opacity: modalOpacity
+            }
+          ]}
+        >
+          <View style={styles.aboutHeader}>
+            <Text style={[styles.aboutTitle, { color: darkMode ? '#fff' : '#000' }]}>Create New Report</Text>
+            <TouchableOpacity onPress={() => setShowAddReport(false)}>
+              <Ionicons name="close" size={24} color={darkMode ? '#fff' : '#000'} />
+            </TouchableOpacity>
+          </View>
+          
+          <ScrollView style={styles.addReportContent}>
+            <View style={styles.inputContainer}>
+              <Text style={[styles.inputLabel, { color: darkMode ? '#fff' : '#000' }]}>
+                Title <Text style={{ color: '#FF3B30' }}>*</Text>
+              </Text>
+              <TextInput
+                style={[
+                  styles.textInput,
+                  { 
+                    backgroundColor: darkMode ? '#333' : '#f5f5f5',
+                    color: darkMode ? '#fff' : '#000',
+                    borderColor: darkMode ? '#444' : '#ddd'
+                  }
+                ]}
+                placeholder="Enter report title"
+                placeholderTextColor={darkMode ? '#aaa' : '#999'}
+                value={reportTitle}
+                onChangeText={setReportTitle}
+              />
+            </View>
+            
+            <View style={styles.inputContainer}>
+              <Text style={[styles.inputLabel, { color: darkMode ? '#fff' : '#000' }]}>
+                Address <Text style={{ color: '#FF3B30' }}>*</Text>
+              </Text>
+              <TextInput
+                style={[
+                  styles.textInput,
+                  { 
+                    backgroundColor: darkMode ? '#333' : '#f5f5f5',
+                    color: darkMode ? '#fff' : '#000',
+                    borderColor: darkMode ? '#444' : '#ddd'
+                  }
+                ]}
+                placeholder="Enter location address"
+                placeholderTextColor={darkMode ? '#aaa' : '#999'}
+                value={reportAddress}
+                onChangeText={setReportAddress}
+              />
+            </View>
+            
+            <View style={styles.inputContainer}>
+              <Text style={[styles.inputLabel, { color: darkMode ? '#fff' : '#000' }]}>
+                Description <Text style={{ color: '#FF3B30' }}>*</Text>
+              </Text>
+              <TextInput
+                style={[
+                  styles.textInput,
+                  styles.textAreaInput,
+                  { 
+                    backgroundColor: darkMode ? '#333' : '#f5f5f5',
+                    color: darkMode ? '#fff' : '#000',
+                    borderColor: darkMode ? '#444' : '#ddd'
+                  }
+                ]}
+                placeholder="Enter report description"
+                placeholderTextColor={darkMode ? '#aaa' : '#999'}
+                multiline={true}
+                numberOfLines={4}
+                textAlignVertical="top"
+                value={reportDescription}
+                onChangeText={setReportDescription}
+              />
+            </View>
+            
+            <View style={styles.inputContainer}>
+              <Text style={[styles.inputLabel, { color: darkMode ? '#fff' : '#000' }]}>
+                Tag <Text style={{ color: '#FF3B30' }}>*</Text>
+              </Text>
+              <View style={styles.tagContainer}>
+                <TouchableOpacity 
+                  style={[
+                    styles.tagOption,
+                    reportTag === 'crime' && styles.tagOptionSelected,
+                    { borderColor: darkMode ? '#444' : '#ddd', flex: 0.8 }
+                  ]}
+                  onPress={() => setReportTag('crime')}
+                >
+                  <Ionicons 
+                    name="warning" 
+                    size={20} 
+                    color={reportTag === 'crime' ? '#FFC107' : (darkMode ? '#fff' : '#000')}
+                  />
+                  <Text 
+                    style={[
+                      styles.tagText,
+                      { color: reportTag === 'crime' ? '#FFC107' : (darkMode ? '#fff' : '#000') }
+                    ]}
+                  >
+                    Crime
+                  </Text>
+                </TouchableOpacity>
+                
+                <TouchableOpacity 
+                  style={[
+                    styles.tagOption,
+                    reportTag === 'infrastructure' && styles.tagOptionSelected,
+                    { borderColor: darkMode ? '#444' : '#ddd', flex: 1.2 }
+                  ]}
+                  onPress={() => setReportTag('infrastructure')}
+                >
+                  <Ionicons 
+                    name="construct" 
+                    size={20} 
+                    color={reportTag === 'infrastructure' ? '#FFC107' : (darkMode ? '#fff' : '#000')}
+                  />
+                  <Text 
+                    style={[
+                      styles.tagText,
+                      { color: reportTag === 'infrastructure' ? '#FFC107' : (darkMode ? '#fff' : '#000') }
+                    ]}
+                  >
+                    Infrastructure
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </ScrollView>
+          
+          <View style={styles.modalFooter}>
+            <TouchableOpacity 
+              style={styles.createReportButton}
+              onPress={handleCreateReport}
+            >
+              <Text style={styles.createReportButtonText}>Create Report</Text>
+            </TouchableOpacity>
+          </View>
+        </Animated.View>
+      </Animated.View>
+    );
+  };
+
   return (
     <View style={[styles.container, { backgroundColor: theme.backgroundColor }]}>
       {activeTab !== 'reports' ? (
@@ -1032,7 +1317,7 @@ export default function HomeScreen() {
           {renderMapContent()}
       </MapView>
       ) : (
-        renderReports(darkMode)
+        renderReports(darkMode, setShowAddReport, resData)
       )}
 
       {/* Traffic Info Panel - shows when traffic tab is active */}
@@ -1070,18 +1355,19 @@ export default function HomeScreen() {
       {renderMapPreferencesModal()}
       {renderNotificationPreferencesModal()}
       {renderSignInModal()}
+      {renderAddReportModal()}
 
       {/* Bottom Menu Bar */}
       <View style={[styles.bottomMenu, { 
-        backgroundColor: darkMode ? '#222' : '#000',
-        borderTopColor: darkMode ? '#444' : '#333'
+        backgroundColor: darkMode ? 'rgba(34, 34, 34, 0.85)' : 'rgba(255, 255, 255, 0.85)',
+        borderTopColor: darkMode ? '#444' : '#ddd'
       }]}>
         <TouchableOpacity 
           style={[
             styles.menuItem, 
             activeTab === 'crime' && [
               styles.activeMenuItem, 
-              { backgroundColor: darkMode ? '#333' : '#222' }
+              { backgroundColor: darkMode ? 'rgba(51, 51, 51, 0.8)' : 'rgba(240, 240, 240, 0.8)' }
             ]
           ]}
           onPress={() => {
@@ -1092,9 +1378,9 @@ export default function HomeScreen() {
           <Ionicons 
             name="warning" 
             size={24} 
-            color={activeTab === 'crime' ? "#FFC107" : "white"} 
+            color={activeTab === 'crime' ? "#FFC107" : darkMode ? "white" : "#333"} 
           />
-          <Text style={styles.menuText}>Crime Map</Text>
+          <Text style={[styles.menuText, { color: darkMode ? "white" : "#333" }]}>Crime Map</Text>
         </TouchableOpacity>
         
         <TouchableOpacity 
@@ -1102,7 +1388,7 @@ export default function HomeScreen() {
             styles.menuItem, 
             activeTab === 'traffic' && [
               styles.activeMenuItem, 
-              { backgroundColor: darkMode ? '#333' : '#222' }
+              { backgroundColor: darkMode ? 'rgba(51, 51, 51, 0.8)' : 'rgba(240, 240, 240, 0.8)' }
             ]
           ]}
           onPress={() => {
@@ -1113,9 +1399,9 @@ export default function HomeScreen() {
           <MaterialIcons 
             name="traffic" 
             size={24} 
-            color={activeTab === 'traffic' ? "#FFC107" : "white"} 
+            color={activeTab === 'traffic' ? "#FFC107" : darkMode ? "white" : "#333"} 
           />
-          <Text style={styles.menuText}>Traffic</Text>
+          <Text style={[styles.menuText, { color: darkMode ? "white" : "#333" }]}>Traffic</Text>
         </TouchableOpacity>
         
         <TouchableOpacity 
@@ -1123,7 +1409,7 @@ export default function HomeScreen() {
             styles.menuItem, 
             activeTab === 'reports' && [
               styles.activeMenuItem, 
-              { backgroundColor: darkMode ? '#333' : '#222' }
+              { backgroundColor: darkMode ? 'rgba(51, 51, 51, 0.8)' : 'rgba(240, 240, 240, 0.8)' }
             ]
           ]}
           onPress={() => {
@@ -1134,9 +1420,9 @@ export default function HomeScreen() {
           <FontAwesome5 
             name="clipboard-list" 
             size={24} 
-            color={activeTab === 'reports' ? "#FFC107" : "white"} 
+            color={activeTab === 'reports' ? "#FFC107" : darkMode ? "white" : "#333"} 
           />
-          <Text style={styles.menuText}>Reports</Text>
+          <Text style={[styles.menuText, { color: darkMode ? "white" : "#333" }]}>Reports</Text>
         </TouchableOpacity>
         
         <TouchableOpacity 
@@ -1144,7 +1430,7 @@ export default function HomeScreen() {
             styles.menuItem, 
             showSettings && [
               styles.activeMenuItem, 
-              { backgroundColor: darkMode ? '#333' : '#222' }
+              { backgroundColor: darkMode ? 'rgba(51, 51, 51, 0.8)' : 'rgba(240, 240, 240, 0.8)' }
             ]
           ]}
           onPress={() => setShowSettings(!showSettings)}
@@ -1152,9 +1438,9 @@ export default function HomeScreen() {
           <Ionicons 
             name="settings" 
             size={24} 
-            color={showSettings ? "#FFC107" : "white"} 
+            color={showSettings ? "#FFC107" : darkMode ? "white" : "#333"} 
           />
-          <Text style={styles.menuText}>Settings</Text>
+          <Text style={[styles.menuText, { color: darkMode ? "white" : "#333" }]}>Settings</Text>
         </TouchableOpacity>
       </View>
       
