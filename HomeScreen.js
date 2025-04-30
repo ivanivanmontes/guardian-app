@@ -478,6 +478,8 @@ export default function HomeScreen() {
         username: report.username,
         time: report.time?.$date,
         tag: report.tag,
+        latitude: report.latitude,
+        longitude: report.longitude
       }));
       setResData(formattedData);
     } catch (error) {

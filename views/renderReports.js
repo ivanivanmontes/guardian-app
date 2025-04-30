@@ -31,18 +31,28 @@ const renderReports = (darkMode, setShowAddReport, resData) => {
         >
           {resData.map((report) => {
             const timeDescription = `Reported ${getDetailedTimeElapsed(report.time)} ago`;
+  
+            // Handle the press event
+            const handlePress = () => {
+              console.log("Selected report:", report); // This will log the clicked report
+              // Or log all data
+              // console.log("All reports:", resData);
+            };
+  
             return (
-              <View key={report.id} style={[styles.reportCard, { backgroundColor: theme.cardBackground }]}>
-                <Text style={[styles.reportTitle, { color: theme.primaryText }]}>{report.title}</Text>
-                <Text style={[styles.reportLocation, { color: theme.secondaryText }]}>
-                  <Ionicons name="location" size={16} color={theme.secondaryText} /> {report.address}
-                </Text>
-                <Text style={[styles.reportTime, { color: theme.secondaryText }]}>
-                  <Ionicons name="time" size={16} color={theme.secondaryText} /> {timeDescription}
-                </Text>
-                <Text style={[styles.reportDescription, { color: theme.primaryText }]}>{report.description}</Text>
-                <Text style={[styles.reportedBy, { color: theme.tertiaryText }]}>Reported by: {report.username}</Text>
-              </View>
+              <TouchableOpacity key={report.id} onPress={handlePress}>
+                <View style={[styles.reportCard, { backgroundColor: theme.cardBackground }]}>
+                  <Text style={[styles.reportTitle, { color: theme.primaryText }]}>{report.title}</Text>
+                  <Text style={[styles.reportLocation, { color: theme.secondaryText }]}>
+                    <Ionicons name="location" size={16} color={theme.secondaryText} /> {report.address}
+                  </Text>
+                  <Text style={[styles.reportTime, { color: theme.secondaryText }]}>
+                    <Ionicons name="time" size={16} color={theme.secondaryText} /> {timeDescription}
+                  </Text>
+                  <Text style={[styles.reportDescription, { color: theme.primaryText }]}>{report.description}</Text>
+                  <Text style={[styles.reportedBy, { color: theme.tertiaryText }]}>Reported by: {report.username}</Text>
+                </View>
+              </TouchableOpacity>
             );
           })}
           {/* Extra padding at the bottom */}
@@ -51,6 +61,7 @@ const renderReports = (darkMode, setShowAddReport, resData) => {
       </SafeAreaView>
     </View>
   );
+  
 };
 
 export default renderReports;

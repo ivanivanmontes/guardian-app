@@ -1,10 +1,29 @@
+import requests
 import datetime
 from flask import Flask, request, jsonify
 from flask_bcrypt import Bcrypt
 from flask_cors import CORS
 from pymongo import MongoClient
 from bson.json_util import dumps
+from dotenv import load_dotenv
+import os
 
+load_dotenv()
+GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY");
+
+def geocode_address(address, api_key):
+    base_url = "https://maps.googleapis.com/maps/api/geocode/json"
+    params = {
+        "address": address,
+        "key": api_key
+    }
+    response = requests.get(base_url, params=params)
+    if response.status_code == 200:
+        data = response.json()
+        if data['status'] == "OK":
+            location = data['results'][0]['geometry']['location']
+            return location['lat'], location['lng']
+    return None, None
 
 app = Flask(__name__)
 CORS(app)
@@ -84,6 +103,10 @@ def add_report():
         "tag": data["tag"],
         "time": report_time
     })
+    lat, lng = geocode_address(data["address"], GOOGLE_API_KEY)
+
+    if lat is None or lng is None:
+        return jsonify({"error": "Failed to geocode address"}), 400
 
     if existing_report:
         return jsonify({"error": "Report already exists"}), 400
@@ -95,10 +118,13 @@ def add_report():
         "address": data["address"],
         "tag": data['tag'],
         "time": report_time,
+        "latitude": lat,
+        "longitude": lng
     }
 
     reports.insert_one(new_report)
     return jsonify({"message": "Report added successfully!"}), 200
+    # return jsonify({"lng": lng, }), 200
 
 @app.route("/get-reports/<username>", methods=["GET"])
 def get_reports(username: str):
