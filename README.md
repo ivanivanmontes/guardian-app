@@ -3,11 +3,11 @@
 [**Quickstart**](#quickstart) | [**Installation**](#installation) | [**Documentation**](#documentation) | [**Examples**](#examples)
 
 ## Introduction
-Guardian is an iOS app that connects New Yorkers in real time by delivering essential safety alerts, dynamic mobility updates, and environmental insights. It aims to create a safer and more connected urban experience.
+Guardian is an iOS app that connects New Yorkers in real time by delivering essential safety alerts, dynamic mobility updates, and environmental insights. It aims to create a safer and more connected urban experience by giving users the ability to upload real time alerts for their fellow users.
 
 ## Quickstart
 
-If you have completed all the installation steps below, the development server will start, and the iOS simulator will launch automatically. You can begin modifying the code and testing the app immediately.
+If you have completed all the installation steps below, the development server will start, and the iOS simulator will launch automatically. You can begin modifying the code and testing the app immediately. Give it a try 
 
 - Run the app on the iOS simulator:
   ```bash
