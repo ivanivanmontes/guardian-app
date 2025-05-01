@@ -501,7 +501,7 @@ export default function HomeScreen() {
       case 'crime':
   return (
           <>
-        {crimeData.map((crime, index) => {
+        {resData.map((crime, index) => {
           // Calculate description based on time string
           const timeDescription = `Reported ${getDetailedTimeElapsed(crime.time)} ago`;
           
@@ -520,7 +520,7 @@ export default function HomeScreen() {
                 style={styles.markerContainer}
               >
                 <View style={[styles.emojiMarker, { backgroundColor: darkMode ? 'rgba(30, 30, 30, 0.85)' : 'rgba(255, 255, 255, 0.85)' }]}>
-                  <Text style={styles.emojiText}>{crime.emoji}</Text>
+                  <Text style={styles.emojiText}>{crime.tag == "crime" ? "👊" : "🚧" }</Text>
                   {getTimeIndicator(crime.time)}
                 </View>
               </TouchableOpacity>
@@ -528,12 +528,12 @@ export default function HomeScreen() {
               <Callout tooltip>
                 <View style={[styles.calloutStyle, { backgroundColor: theme.calloutBackground, borderColor: theme.calloutBorder }]}>
                   <View style={styles.calloutHeader}>
-                    <Text style={styles.emoji}>{crime.emoji}</Text>
+                    <Text style={styles.emoji}>{crime.tag == "crime" ? "👊" : "🚧" }</Text>
                     <Text style={[styles.title, { color: theme.calloutTitle }]}>{crime.title}</Text>
                   </View>
                   <View style={[styles.divider, { backgroundColor: theme.dividerColor }]} />
                   <Text style={[styles.description, { color: theme.primaryText }]}>{timeDescription}</Text>
-                  <Text style={[styles.time, { color: theme.secondaryText }]}>Time: {crime.time}</Text>
+                  <Text style={[styles.time, { color: theme.secondaryText }]}>Time: {Date(crime.date)}</Text>
                   <Text style={[styles.details, { color: theme.primaryText }]}>{crime.details}</Text>
                 </View>
               </Callout>
@@ -1074,23 +1074,6 @@ export default function HomeScreen() {
 
   const [serverMessage, setServerMessage] = useState('');
 
-  const handleGetAllReports = async () => {
-    try {
-      const response = await fetch('http://127.0.0.1:5000/get-all-reports');
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      const data = await response.json();
-      console.log(data); // This will log the complete array of report objects
-      // Example of accessing the first report's title:
-      if (data.length > 0) {
-        console.log("First report title:", data[0].title);
-      }
-    } catch (error) {
-      console.error("Fetch error:", error);
-      setServerMessage('Failed to reach server 😢');
-    }
-  };
 
   // Handle Create Report
   const handleCreateReport = async () => {
