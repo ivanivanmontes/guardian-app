@@ -291,7 +291,6 @@ const crimeData = [
   }
 ];
 
-  
 // Traffic data
 const trafficData = [
 {

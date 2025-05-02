@@ -1,11 +1,8 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Switch, Platform, Animated, TextInput } from 'react-native';
+import { View, Text, TouchableOpacity, ScrollView, Animated, TextInput } from 'react-native';
 import MapView, { Marker, Callout, PROVIDER_GOOGLE } from 'react-native-maps';
 import { Ionicons, MaterialIcons, FontAwesome5 } from '@expo/vector-icons';
 import { StatusBar } from 'expo-status-bar';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { Button } from 'react-native';
-import {crimeData, trafficData, reportsData } from "./mockData";
 import renderReports from './views/renderReports';
 import renderSettings from './views/renderSettings';
 import styles from './styles';
@@ -202,13 +199,10 @@ const darkMapStyle = [
   }
 ];
 
-// Light mode map style - standard Google Maps style 
 const lightMapStyle = [];
 
-// Traffic enhancements for both light and dark modes
 const trafficEnhancements = [
 
-  // Made roads look more visible on the map
   {
     "featureType": "road",
     "elementType": "geometry",
@@ -226,7 +220,6 @@ const trafficEnhancements = [
       { "visibility": "simplified" }
     ]
   },
-  // Made highways look more visible on the map
   {
     "featureType": "road.highway",
     "elementType": "geometry",
@@ -250,12 +243,12 @@ export default function HomeScreen( {username, onLogout }) {
   const [mapType, setMapType] = useState('standard');
   const [showNotificationPreferences, setShowNotificationPreferences] = useState(false);
   const [notificationRadius, setNotificationRadius] = useState(5);
-  const [showSignIn, setShowSignIn] = useState(false); // State for sign in modal
-  const [showAddReport, setShowAddReport] = useState(false); // State for add report modal
+  const [showSignIn, setShowSignIn] = useState(false);
+  const [showAddReport, setShowAddReport] = useState(false);
   const [reportTitle, setReportTitle] = useState('');
   const [reportDescription, setReportDescription] = useState('');
   const [reportAddress, setReportAddress] = useState('');
-  const [reportTag, setReportTag] = useState('crime'); // Default tag
+  const [reportTag, setReportTag] = useState('crime');
   const [resData, setResData] = useState([]);
 
   
@@ -451,12 +444,9 @@ export default function HomeScreen( {username, onLogout }) {
 
   const theme = getThemeStyles(darkMode);
 
-  // Custom map style for traffic layer with dark mode support
   const getMapStyle = () => {
-    // Base style based on dark mode
     const baseStyle = darkMode ? darkMapStyle : lightMapStyle;
     
-    // Add traffic-specific styling if in traffic tab
     if (activeTab === 'traffic') {
       return [
         ...baseStyle,
@@ -495,14 +485,12 @@ export default function HomeScreen( {username, onLogout }) {
 
   
   
-  // Render map content based on active tab
   const renderMapContent = () => {
     switch (activeTab) {
       case 'crime':
   return (
           <>
         {resData.map((crime, index) => {
-          // Calculate description based on time string
           const timeDescription = `Reported ${getDetailedTimeElapsed(crime.time)} ago`;
           
           return (
@@ -549,7 +537,6 @@ export default function HomeScreen( {username, onLogout }) {
     }
   };
 
-  // Render map preferences modal
   const renderMapPreferencesModal = () => {
     const modalScale = mapPreferencesAnimation.interpolate({
       inputRange: [0, 1],
@@ -1072,13 +1059,10 @@ export default function HomeScreen( {username, onLogout }) {
     console.log('Marker pressed:', crime.title);
   };
 
-  const [serverMessage, setServerMessage] = useState('');
 
 
-  // Handle Create Report
   const handleCreateReport = async () => {
 
-    // Validate form inputs
     if (!reportTitle.trim()) {
       alert('Please enter a title for the report');
       return;
@@ -1305,7 +1289,6 @@ export default function HomeScreen( {username, onLogout }) {
         renderReports(darkMode, setShowAddReport, resData)
       )}
 
-      {/* Traffic Info Panel - shows when traffic tab is active */}
       {activeTab === 'traffic' && (
         <View style={[styles.trafficInfoPanel, { 
           backgroundColor: darkMode ? 'rgba(30, 30, 30, 0.85)' : 'rgba(255, 255, 255, 0.85)',
@@ -1342,7 +1325,6 @@ export default function HomeScreen( {username, onLogout }) {
       {renderSignInModal()}
       {renderAddReportModal()}
 
-      {/* Bottom Menu Bar */}
       <View style={[styles.bottomMenu, { 
         backgroundColor: darkMode ? 'rgba(34, 34, 34, 0.85)' : 'rgba(255, 255, 255, 0.85)',
         borderTopColor: darkMode ? '#444' : '#ddd'

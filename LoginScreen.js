@@ -7,7 +7,7 @@ import { loginUser } from './login';
 const LoginScreen = ({ onLoginSuccess, onRegister }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const darkMode = false; // Replace with context or prop if you use dark mode globally
+  const darkMode = false;
 
   const handleLogin = async () => {
     const response = await loginUser(username, password);

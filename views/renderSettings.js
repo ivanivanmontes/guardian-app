@@ -1,11 +1,7 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Switch, Platform, Animated } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { View, Text, TouchableOpacity, Animated } from 'react-native';
 import styles from '../styles';
-import { Ionicons, MaterialIcons, FontAwesome5 } from '@expo/vector-icons';
-import {crimeData, trafficData, reportsData } from "../mockData";
-import getDetailedTimeElapsed from '../utils/timeUtils';
-import getThemeStyles from '../utils/themeUtils';
+import { Ionicons } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // Render settings panel

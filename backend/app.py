@@ -29,7 +29,6 @@ app = Flask(__name__)
 CORS(app)
 bcrypt = Bcrypt(app)
 
-# MongoDB connection (change to Atlas URI if using cloud)
 client = MongoClient ("mongodb+srv://ivanmontes604:WaAnuHGwTHMdg8Rp@cluster0.mn7gll5.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
 db = client["myapp"]
 users = db["users"]
@@ -92,8 +91,6 @@ def add_report():
     """
     data = request.get_json()
 
-    # Set the current UTC time for the report
-    report_time = datetime.datetime.now()
 
     existing_report = reports.find_one({
         "username": data["username"],
@@ -101,7 +98,7 @@ def add_report():
         "description": data["description"],
         "address": data["address"],
         "tag": data["tag"],
-        "time": report_time
+        "time": datetime.datetime.now()
     })
     lat, lng = geocode_address(data["address"], GOOGLE_API_KEY)
 
@@ -117,14 +114,13 @@ def add_report():
         "description": data.get("description", ""),
         "address": data["address"],
         "tag": data['tag'],
-        "time": report_time,
+        "time": datetime.datetime.now(),
         "latitude": lat,
         "longitude": lng
     }
 
     reports.insert_one(new_report)
     return jsonify({"message": "Report added successfully!"}), 200
-    # return jsonify({"lng": lng, }), 200
 
 @app.route("/get-reports/<username>", methods=["GET"])
 def get_reports(username: str):

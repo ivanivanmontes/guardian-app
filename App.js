@@ -37,12 +37,7 @@ export default function App() {
   }, []);
   
 
-  const handleLogout = async () => {
-    await AsyncStorage.removeItem("username");
-    setUsername(null);
-  }
-
-  if (loading) return null; // TODO: show loading screen?
+  if (loading) return null;
 
 
   return (
