@@ -239,7 +239,7 @@ const trafficEnhancements = [
 
 
 
-export default function HomeScreen() {
+export default function HomeScreen( {username, onLogout }) {
   const [activeTab, setActiveTab] = useState('crime');
   const [showSettings, setShowSettings] = useState(false);
   const [darkMode, setDarkMode] = useState(false);
@@ -1094,7 +1094,7 @@ export default function HomeScreen() {
 
     try { 
       const response = await axios.post('http://127.0.0.1:5000/add-report', {
-        username: 'testuser', //TODO: change this
+        username: username,
         title: reportTitle,
         description: reportDescription,
         address: reportAddress,
@@ -1335,7 +1335,7 @@ export default function HomeScreen() {
         </View>
       )}
 
-      {showSettings && renderSettings(toggleAnimation, toggleDarkMode, darkMode, setShowAbout, setShowSignIn, setShowSettings, setShowNotificationPreferences, setShowMapPreferences)}
+      {showSettings && renderSettings(toggleAnimation, toggleDarkMode, darkMode, setShowAbout, setShowSignIn, setShowSettings, setShowNotificationPreferences, setShowMapPreferences, onLogout, username)}
       {renderAboutModal(showAbout, setShowAbout, aboutModalAnimation, darkMode)}
       {renderMapPreferencesModal()}
       {renderNotificationPreferencesModal()}
