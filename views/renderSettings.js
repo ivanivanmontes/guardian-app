@@ -6,9 +6,10 @@ import { Ionicons, MaterialIcons, FontAwesome5 } from '@expo/vector-icons';
 import {crimeData, trafficData, reportsData } from "../mockData";
 import getDetailedTimeElapsed from '../utils/timeUtils';
 import getThemeStyles from '../utils/themeUtils';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // Render settings panel
-const renderSettings = (toggleAnimation, toggleDarkMode, darkMode, setShowAbout, setShowSignIn, setShowSettings, setShowNotificationPreferences, setShowMapPreferences) => {
+const renderSettings = (toggleAnimation, toggleDarkMode, darkMode, setShowAbout, setShowSignIn, setShowSettings, setShowNotificationPreferences, setShowMapPreferences, onLogout, username) => {
     const toggleTranslateX = toggleAnimation.interpolate({
       inputRange: [0, 1],
       outputRange: [0, 22]
@@ -79,14 +80,11 @@ const renderSettings = (toggleAnimation, toggleDarkMode, darkMode, setShowAbout,
             </Animated.View>
           </TouchableOpacity>
         </View>
+        <View style={[styles.settingItem, { borderBottomColor: darkMode ? '#444' : '#ddd' }]}>
+          <Text style={[styles.settingLabel, { color: darkMode ? '#fff' : '#000' }]}>Username: {username}</Text>
+        </View>
         
-        <TouchableOpacity 
-          style={[styles.settingButton, { borderBottomColor: darkMode ? '#444' : '#ddd' }]}
-          onPress={() => setShowSignIn(true)}
-        >
-          <Ionicons name="person-circle-outline" size={20} color={darkMode ? '#fff' : '#333'} />
-          <Text style={[styles.settingButtonText, { color: darkMode ? '#fff' : '#333' }]}>Sign In / Register</Text>
-        </TouchableOpacity>
+        
         
         <TouchableOpacity 
           style={[styles.settingButton, { borderBottomColor: darkMode ? '#444' : '#ddd' }]}
@@ -110,6 +108,16 @@ const renderSettings = (toggleAnimation, toggleDarkMode, darkMode, setShowAbout,
         >
           <Ionicons name="information-circle-outline" size={20} color={darkMode ? '#fff' : '#333'} />
           <Text style={[styles.settingButtonText, { color: darkMode ? '#fff' : '#333' }]}>About</Text>
+        </TouchableOpacity>
+        <TouchableOpacity 
+          style={[styles.settingButton, { borderBottomColor: darkMode ? '#444' : '#ddd' }]}
+          onPress={async () => {
+            await AsyncStorage.removeItem('username');
+            onLogout();
+          }}
+        >
+          <Ionicons name="person-circle-outline" size={20} color={darkMode ? '#fff' : '#333'} />
+          <Text style={[styles.settingButtonText, { color: darkMode ? '#fff' : '#333' }]}>Logout</Text>
         </TouchableOpacity>
       </View>
     );
