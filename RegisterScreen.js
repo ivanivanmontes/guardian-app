@@ -6,7 +6,7 @@ import { registerUser } from './login';
 const RegisterScreen = ({ onRegister, onBack }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const darkMode = false; // Replace with your actual dark mode logic if needed
+  const darkMode = false;
 
   const handleRegister = async () => {
     try {
