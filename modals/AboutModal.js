@@ -3,7 +3,6 @@ import { View, Text, TouchableOpacity, Animated } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import styles from '../styles';
 
-// Render about modal
 const renderAboutModal = (showAbout, setShowAbout, aboutModalAnimation, darkMode) => {
     const modalScale = aboutModalAnimation.interpolate({
       inputRange: [0, 1],

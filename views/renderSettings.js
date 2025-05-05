@@ -4,7 +4,6 @@ import styles from '../styles';
 import { Ionicons } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-// Render settings panel
 const renderSettings = (toggleAnimation, toggleDarkMode, darkMode, setShowAbout, setShowSignIn, setShowSettings, setShowNotificationPreferences, setShowMapPreferences, onLogout, username) => {
     const toggleTranslateX = toggleAnimation.interpolate({
       inputRange: [0, 1],

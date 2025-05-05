@@ -3,7 +3,7 @@ import { View, Text, TextInput, Alert, StyleSheet, TouchableOpacity } from 'reac
 import { Ionicons } from '@expo/vector-icons';
 import { registerUser } from './login';
 
-const RegisterScreen = ({ onRegister, onBack }) => {
+const RegisterScreen = ({ onBack }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const darkMode = false;

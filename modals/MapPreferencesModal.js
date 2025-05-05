@@ -1,4 +1,3 @@
-// Render map preferences modal
 const renderMapPreferencesModal = () => {
     const modalScale = mapPreferencesAnimation.interpolate({
         inputRange: [0, 1],

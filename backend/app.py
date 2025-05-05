@@ -58,13 +58,13 @@ def login():
         return jsonify({'message': 'Login successful!'}), 200
     return jsonify({'error': 'Invalid username or password'}), 401
 
+# Test DB connection
 @app.route('/test-db', methods=['GET'])
 def test_db():
     try:
-        # Just try to list the collections as a simple test
         collections = db.list_collection_names()
         return jsonify({
-            'message': 'Database connection successful!',
+            'message': 'Database connection successful!!',
             'collections': collections
         }), 200
     except Exception as e:
@@ -73,7 +73,8 @@ def test_db():
             'details': str(e)
         }), 500
 
-@app.route('/test-server', methods=['GET'])
+# Test route
+@app.route('/', methods=['GET'])
 def test_server():
     return jsonify({"message": "Hello from Flask!"}), 200
 
@@ -132,7 +133,5 @@ def get_all_reports():
     user_reports = reports.find()
     return dumps(list(user_reports)), 200
 
-
-# Run server
 if __name__ == '__main__':
     app.run(debug=True)

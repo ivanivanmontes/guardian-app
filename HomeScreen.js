@@ -11,7 +11,7 @@ import getThemeStyles from './utils/themeUtils';
 import renderAboutModal from './modals/AboutModal';
 import axios from "axios";
 import { useFocusEffect } from '@react-navigation/native';
-// Dark mode map style
+
 const darkMapStyle = [
   {
     "elementType": "geometry",
@@ -490,7 +490,7 @@ export default function HomeScreen( {username, onLogout }) {
       case 'crime':
   return (
           <>
-        {resData.map((crime, index) => {
+        {resData.map((crime) => {
           const timeDescription = `Reported ${getDetailedTimeElapsed(crime.time)} ago`;
           
           return (

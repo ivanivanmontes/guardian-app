@@ -1,4 +1,5 @@
 # Guardian
+[GITHUB](https://github.com/ivanivanmontes/guardian-app)
 
 [**Quickstart**](#quickstart) | [**Installation**](#installation) | [**Documentation**](#documentation) | [**Examples**](#examples)
 
@@ -50,10 +51,9 @@ If you haven't installed Xcode, download it from the Mac App Store to get the iO
   npm run ios
   ```
 
-## Documentation
+## backend
 
-Further documentation for this project will be available soon in the Documentation directory. It includes detailed setup instructions, code organization, and guidelines for theme customization.
-
-
-
-
+- cd into the backend directory and run:
+  ```bash
+  make
+  ```

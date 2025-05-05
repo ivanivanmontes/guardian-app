@@ -1,12 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Switch, Platform, Animated } from 'react-native';
+import React from 'react';
+import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import styles from '../styles';
-import { Ionicons, MaterialIcons, FontAwesome5 } from '@expo/vector-icons';
-import {crimeData, trafficData, reportsData } from "../mockData";
+import { Ionicons } from '@expo/vector-icons';
 import getDetailedTimeElapsed from '../utils/timeUtils';
 import getThemeStyles from '../utils/themeUtils';
-// Render reports screen
+
 const renderReports = (darkMode, setShowAddReport, resData) => {
   const theme = getThemeStyles(darkMode);
   return (
@@ -31,12 +30,9 @@ const renderReports = (darkMode, setShowAddReport, resData) => {
         >
           {resData.map((report) => {
             const timeDescription = `Reported ${getDetailedTimeElapsed(report.time)} ago`;
-  
-            // Handle the press event
+
             const handlePress = () => {
-              console.log("Selected report:", report); // This will log the clicked report
-              // Or log all data
-              // console.log("All reports:", resData);
+              console.log("Selected report:", report);
             };
   
             return (
@@ -55,7 +51,6 @@ const renderReports = (darkMode, setShowAddReport, resData) => {
               </TouchableOpacity>
             );
           })}
-          {/* Extra padding at the bottom */}
           <View style={styles.reportsBottomPadding} />
         </ScrollView>
       </SafeAreaView>
